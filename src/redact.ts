@@ -8,6 +8,8 @@ const PATTERNS: [RegExp, string][] = [
   [/\bgithub_pat_[A-Za-z0-9_]{30,}\b/g, '[github token]'],
   [/\bsk-[A-Za-z0-9_-]{20,}\b/g, '[api key]'],
   [/\bAIza[0-9A-Za-z_-]{35}\b/g, '[api key]'],
+  // Newer Google AI Studio keys: AQ. followed by a long base64url body.
+  [/\bAQ\.[A-Za-z0-9_-]{40,}/g, '[api key]'],
   [/\b(?:AKIA|ASIA)[0-9A-Z]{16}\b/g, '[aws key]'],
 ];
 

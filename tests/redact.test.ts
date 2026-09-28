@@ -12,6 +12,7 @@ const PLANTED = {
   openaiKey: `sk-proj-${'x9Y8z7W6v5'.repeat(3)}`,
   // Google keys are always AIza + 35 characters.
   googleKey: `AIza${'SyD0123456789abcdefghijklmnopqrstuv'}`,
+  googleKeyNew: `AQ.${'Ab12Cd34Ef56Gh78_-'.repeat(3)}`,
   awsKey: 'AKIAIOSFODNN7EXAMPLE',
   privateKey: '-----BEGIN RSA PRIVATE KEY-----\nMIIEpAIBAAKCAQEA0000\n-----END RSA PRIVATE KEY-----',
   envSecret: 'value-of-a-repo-secret-42',
