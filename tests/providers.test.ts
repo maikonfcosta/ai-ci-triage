@@ -1,6 +1,6 @@
-import { describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import { parseDiagnoses } from '../src/prompt';
-import { cost, diagnoseWithFallback, inputCost } from '../src/providers';
+import { cost, diagnoseWithFallback, GeminiProvider, inputCost } from '../src/providers';
 import { DIAGNOSIS, fakeProvider } from './helpers';
 
 describe('cost', () => {
@@ -53,5 +53,25 @@ describe('parseDiagnoses', () => {
     ['line as text', JSON.stringify({ diagnoses: [{ ...DIAGNOSIS, line: '12' }] })],
   ])('rejects %s', (_, text) => {
     expect(() => parseDiagnoses(text)).toThrow();
+  });
+});
+
+describe('GeminiProvider on the Developer API', () => {
+  afterEach(() => vi.unstubAllGlobals());
+
+  // countTokens with systemInstruction is refused by the SDK before any request, outside Vertex AI.
+  it('counts tokens without systemInstruction, instructions included as content', async () => {
+    const bodies: string[] = [];
+    vi.stubGlobal('fetch', async (_url: string, init?: RequestInit) => {
+      bodies.push(String(init?.body ?? ''));
+      return new Response(JSON.stringify({ totalTokens: 1234 }), { headers: { 'content-type': 'application/json' } });
+    });
+
+    const tokens = await new GeminiProvider('test-key').countTokens('the context');
+
+    expect(tokens).toBe(1234);
+    expect(bodies[0]).not.toContain('systemInstruction');
+    expect(bodies[0]).toContain('You diagnose failed Playwright tests');
+    expect(bodies[0]).toContain('the context');
   });
 });

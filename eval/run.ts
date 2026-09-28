@@ -3,6 +3,7 @@
 //
 //   npm run eval -- ../playwright-reference-suite            dry run: prompts, tokens, estimated cost
 //   npm run eval -- ../playwright-reference-suite --run      calls both providers, writes eval/results/
+//   add --only gemini (or openai) to evaluate a single provider
 //
 // Keys come from OPENAI_API_KEY and GEMINI_API_KEY in the shell, never from a file in this repo.
 
@@ -69,11 +70,20 @@ function estimator(name: string, model: string): Provider {
   };
 }
 
+// A key with a control character (a paste that did not paste) makes the SDK report "Connection error." instead of 401.
+function checkKey(name: string, key: string | undefined): void {
+  if (key === undefined) return;
+  if (!/^[\x21-\x7e]{20,}$/.test(key)) throw new Error(`${name} does not look like an API key (${key.length} characters, or has spaces/control characters)`);
+}
+
 function providers(): Record<string, Provider> {
   const { OPENAI_API_KEY: o, GEMINI_API_KEY: g } = process.env;
+  checkKey('OPENAI_API_KEY', o);
+  checkKey('GEMINI_API_KEY', g);
   return {
     openai: o ? new OpenAIProvider(o) : estimator('openai', DEFAULT_MODELS.openai),
-    gemini: g ? new GeminiProvider(g) : estimator('gemini', DEFAULT_MODELS.gemini),
+    // The harness paces and retries itself; SDK retries would spend quota without waiting for it.
+    gemini: g ? new GeminiProvider(g, undefined, { attempts: 1 }) : estimator('gemini', DEFAULT_MODELS.gemini),
   };
 }
 
@@ -83,12 +93,40 @@ function pick(diagnoses: Diagnosis[], c: Case, failures: Failure[]): Diagnosis |
   return diagnoses.find((d) => d.test === title) ?? diagnoses.find((d) => title && d.test.endsWith(title));
 }
 
+// The free tier of the Gemini API allows 5 requests per minute per model, and a busy model answers 503.
+const GAP_MS = 13_000;
+let lastCall = 0;
+const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
+async function paced(call: () => Promise<Answer>, label: string): Promise<Answer | { error: string }> {
+  for (let attempt = 1; ; attempt++) {
+    await sleep(Math.max(0, lastCall + GAP_MS - Date.now()));
+    lastCall = Date.now();
+    try {
+      return await call();
+    } catch (err) {
+      const message = err instanceof Error ? err.message : String(err);
+      // A daily quota does not come back in a minute: stop instead of burning more requests.
+      if (/PerDay/.test(message)) throw new Error(`${label}: daily quota exhausted, stopping. Answers saved so far are kept.`);
+      const busy = /\b(429|503)\b|RESOURCE_EXHAUSTED|UNAVAILABLE/.test(message);
+      if (!busy || attempt === 4) return { error: message };
+      // Use the delay the API asks for when it gives one.
+      const wait = Number(/retry in ([\d.]+)s/.exec(message)?.[1] ?? 30) * 1000 + 1000;
+      console.error(`${label}: ${message.match(/"code":\s*(\d+)/)?.[1] ?? 'busy'}, waiting ${Math.round(wait / 1000)}s (attempt ${attempt}/4)`);
+      await sleep(wait);
+    }
+  }
+}
+
 async function main() {
-  const [suiteArg, flag] = process.argv.slice(2);
+  const [suiteArg, ...flags] = process.argv.slice(2);
   if (!suiteArg) throw new Error('usage: npm run eval -- <path to playwright-reference-suite> [--run]');
   const suite = resolve(suiteArg);
-  const real = flag === '--run';
-  const models = providers();
+  const real = flags.includes('--run');
+  // --only gemini: evaluate one provider, e.g. when the other one's key is not usable.
+  const only = flags.includes('--only') ? flags[flags.indexOf('--only') + 1] : undefined;
+  const models = Object.fromEntries(Object.entries(providers()).filter(([name]) => !only || name === only));
+  if (only && Object.keys(models).length === 0) throw new Error(`--only ${only}: no such provider`);
   sh('git', ['fetch', '-q', 'origin'], suite);
 
   const rows: string[] = [];
@@ -120,13 +158,11 @@ async function main() {
           rows.push(`| ${c.id} | ${provider.name} | ${failures.length} | ${context.tokens} | $${estimate.toFixed(4)} | ${context.dropped.length} |`);
           continue;
         }
-        let answer: Answer | { error: string };
-        try {
-          answer = await provider.diagnose(context.text);
-        } catch (err) {
-          answer = { error: err instanceof Error ? err.message : String(err) };
-        }
-        writeFileSync(join(results, c.name, `answer-${name}.json`), JSON.stringify({ tests, dropped: context.dropped, answer }, null, 1));
+        const file = join(results, c.name, `answer-${name}.json`);
+        const saved = existsSync(file) ? (JSON.parse(readFileSync(file, 'utf8')).answer as Answer | { error: string }) : undefined;
+        // A case already answered is not paid for again; a saved error is retried.
+        const answer = saved && !('error' in saved) ? saved : await paced(() => provider.diagnose(context.text), `${c.id} ${name}`);
+        writeFileSync(file, JSON.stringify({ tests, dropped: context.dropped, answer }, null, 1));
         if ('error' in answer) {
           rows.push(`| ${c.id} | ${name} | error | | | ${answer.error.replace(/\|/g, '\\|')} |`);
           continue;
@@ -151,6 +187,7 @@ async function main() {
 }
 
 main().catch((err) => {
-  console.error(err instanceof Error ? err.message : err);
+  const cause = err instanceof Error && err.cause instanceof Error ? ` (cause: ${err.cause.message})` : '';
+  console.error(`${err instanceof Error ? err.message : err}${cause}`);
   process.exit(1);
 });

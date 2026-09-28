@@ -95,16 +95,14 @@ export class GeminiProvider implements Provider {
   constructor(
     apiKey: string,
     readonly model: string = DEFAULT_MODELS.gemini,
+    retry: { attempts: number } = { attempts: 3 },
   ) {
-    this.client = new GoogleGenAI({ apiKey, httpOptions: { timeout: TIMEOUT_MS, retryOptions: { attempts: 3 } } });
+    this.client = new GoogleGenAI({ apiKey, httpOptions: { timeout: TIMEOUT_MS, retryOptions: retry } });
   }
 
   async countTokens(context: string): Promise<number> {
-    const res = await this.client.models.countTokens({
-      model: this.model,
-      contents: context,
-      config: { systemInstruction: INSTRUCTIONS },
-    });
+    // The Developer API (AI Studio keys) rejects systemInstruction on countTokens, so the instructions are counted as content.
+    const res = await this.client.models.countTokens({ model: this.model, contents: [INSTRUCTIONS, context] });
     return res.totalTokens ?? 0;
   }
 
