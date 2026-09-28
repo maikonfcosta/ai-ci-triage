@@ -32,11 +32,11 @@ Both providers answer through their structured output mode with the same JSON sc
 
 ## Providers, model and cost
 
-- Primary: OpenAI API. Fallback: Google Gemini API (the model family behind Antigravity). Provider and model are inputs; the default model IDs and prices are taken from each provider's docs at F1, not from memory.
+- Primary: OpenAI API. Fallback: Google Gemini API (the model family behind Antigravity). Provider and model are inputs. Defaults: `gpt-6-sol` ($2 / $10 per million input/output tokens) and `gemini-3.8-flash` ($0.75 / $3.75 until 31/Dec/2026, doubling on 1/Jan/2027), both from the providers' pricing pages on 28/Sep/2026.
 - Fallback runs only when the primary fails to answer: API error after retries, timeout, refusal, or a reply that does not match the schema. A valid but wrong answer does not trigger it. The comment names the provider and model that answered.
 - Each provider has its own key, stored as a separate secret. With only one key set, the tool runs with that one and no fallback.
 - One prompt builder, two thin clients. Instructions, context and schema are identical for both, so the evaluation compares models, not prompts.
-- Before calling, the prompt is measured with the provider's token counting. Over the limit (input, default 30k tokens), context is dropped in a fixed order, lowest value first: log tail, source windows far from the failing frame, diff hunks in files no frame touches. The failure message and stack are never dropped. The comment lists what was dropped.
+- Before calling, the prompt is measured with the provider's token counting. Over the limit (input, default 30k tokens), context is dropped in a fixed order, lowest value first: diff hunks in files no frame touches, source around deeper stack frames, source around the failing line, diff hunks in files the stack touches. The failure message and stack are never dropped. The comment lists what was dropped.
 - The frozen part of the prompt (instructions, output schema) goes first, so each provider's prompt caching can reuse it across runs. How each one caches is checked at F1.
 - Cost per run is computed from the `usage` the API returns and a price table in the code, and published.
 
