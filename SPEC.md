@@ -28,14 +28,16 @@ All of it is gathered by plain code before the call. The model gets no tools and
 - A JSON file with the verdicts, token usage and cost.
 - Footer on the comment: model, input/output/cached tokens, cost in USD for this run, and what was cut from the context (if anything).
 
-The model answers through structured outputs (`output_config.format` with a JSON schema), so the comment is rendered by code, not written freehand by the model.
+Both providers answer through their structured output mode with the same JSON schema, so the comment is rendered by code, not written freehand by the model.
 
-## Model and cost
+## Providers, model and cost
 
-- Model is an input. Default: `claude-opus-5` (current Opus, $5 / $25 per million input/output tokens). Checked against the Anthropic docs at F1, not from memory.
-- Before calling, the prompt is measured with the token counting endpoint. Over the limit (input, default 30k tokens), context is dropped in a fixed order, lowest value first: log tail, source windows far from the failing frame, diff hunks in files no frame touches. The failure message and stack are never dropped. The comment lists what was dropped.
-- The frozen part of the prompt (instructions, output schema) goes first and is cached, so repeated runs on the same PR pay less for it.
-- If the model declines a request, the API's server-side fallback retries it on another model in the same call; the comment names the model that answered.
+- Primary: OpenAI API. Fallback: Google Gemini API (the model family behind Antigravity). Provider and model are inputs; the default model IDs and prices are taken from each provider's docs at F1, not from memory.
+- Fallback runs only when the primary fails to answer: API error after retries, timeout, refusal, or a reply that does not match the schema. A valid but wrong answer does not trigger it. The comment names the provider and model that answered.
+- Each provider has its own key, stored as a separate secret. With only one key set, the tool runs with that one and no fallback.
+- One prompt builder, two thin clients. Instructions, context and schema are identical for both, so the evaluation compares models, not prompts.
+- Before calling, the prompt is measured with the provider's token counting. Over the limit (input, default 30k tokens), context is dropped in a fixed order, lowest value first: log tail, source windows far from the failing frame, diff hunks in files no frame touches. The failure message and stack are never dropped. The comment lists what was dropped.
+- The frozen part of the prompt (instructions, output schema) goes first, so each provider's prompt caching can reuse it across runs. How each one caches is checked at F1.
 - Cost per run is computed from the `usage` the API returns and a price table in the code, and published.
 
 ## Design rules
@@ -63,18 +65,18 @@ For each case I write down, before any run: the file, the line range, and the ca
 - **file hit**: the file it points at is the one I wrote down (checked by code).
 - **cause hit**: its sentence names the same mechanism (checked by me, with the rubric written next to the expected cause, before running).
 
-Every case runs once with the default model. The cost of the whole evaluation is estimated in dry-run first, and I approve it before it runs.
+Every case runs once with the primary and once with the fallback, so the fallback's quality is known before anyone depends on it. The cost of the whole evaluation is estimated in dry-run first, and I approve it before it runs.
 
 ## Delivery
 
 - TypeScript, Node 24, a JavaScript GitHub Action (bundled `dist/`).
-- `@anthropic-ai/sdk` for the API and `@octokit/rest` for GitHub. Versions pinned at F1 after checking what is current.
+- The official OpenAI and Google Gen AI SDKs for the models, `@octokit/rest` for GitHub. Versions pinned at F1 after checking what is current.
 - Vitest for unit tests. Lint and typecheck in CI.
 
 ## CI
 
 - Every push and PR: lint, typecheck, unit tests. No real API call and no key in CI.
-- The action runs for real only in the demo PR on playwright-reference-suite, with a key stored as a repository secret that I create.
+- The action runs for real only in the demo PR on playwright-reference-suite, with the two keys stored as repository secrets that I create.
 
 ## Out of scope (for now)
 
@@ -89,4 +91,5 @@ Every case runs once with the default model. The cost of the whole evaluation is
 - The action comments on a demo PR in playwright-reference-suite and edits the same comment on the next run.
 - The secret test passes: none of the planted secrets appears in the built prompt.
 - The 10-case evaluation ran, and the README shows file hit, cause hit and average cost per run, whatever the numbers are.
-- The action never fails the job because of the model, the API or a missing key (tested with the client mocked to fail).
+- The action never fails the job because of the model, the API or a missing key (tested with the clients mocked to fail).
+- Fallback is tested: with the primary mocked to fail, the answer comes from the fallback and the comment says so.
