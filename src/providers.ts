@@ -30,6 +30,12 @@ export function cost(model: string, u: Usage): number | null {
   return (uncached * p.input + u.cachedTokens * p.cached + u.cacheWriteTokens * p.cacheWrite + u.outputTokens * p.output) / 1e6;
 }
 
+/** Dry runs only know the input side; output cost is known after a real answer. */
+export function inputCost(model: string, inputTokens: number): number | null {
+  const p = PRICES[model];
+  return p ? (inputTokens * p.input) / 1e6 : null;
+}
+
 export const DEFAULT_MODELS = { openai: 'gpt-6-sol', gemini: 'gemini-3.8-flash' } as const;
 const TIMEOUT_MS = 120_000;
 

@@ -11,7 +11,7 @@ const PATTERNS: [RegExp, string][] = [
   [/\b(?:AKIA|ASIA)[0-9A-Z]{16}\b/g, '[aws key]'],
 ];
 
-const SECRET_NAME = /TOKEN|SECRET|PASSWORD|PASSWD|API_?KEY|PRIVATE|CREDENTIAL|_PAT$/i;
+const SECRET_NAME = /TOKEN|SECRET|PASSWORD|PASSWD|API[_-]?KEY|PRIVATE|CREDENTIAL|_PAT$/i;
 // Short values ("true", "1") would redact half the log and protect nothing.
 const MIN_SECRET_LENGTH = 8;
 
