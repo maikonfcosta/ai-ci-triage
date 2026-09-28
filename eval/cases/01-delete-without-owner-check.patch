@@ -1,0 +1,20 @@
+diff --git a/docker/patches/api/01-delete-without-owner-check.patch b/docker/patches/api/01-delete-without-owner-check.patch
+new file mode 100644
+index 0000000..4069d9c
+--- /dev/null
++++ b/docker/patches/api/01-delete-without-owner-check.patch
+@@ -0,0 +1,14 @@
++diff --git a/server/routes/api/articles/[slug]/index.delete.ts b/server/routes/api/articles/[slug]/index.delete.ts
++index 887669b..fc11a9e 100644
++--- a/server/routes/api/articles/[slug]/index.delete.ts
+++++ b/server/routes/api/articles/[slug]/index.delete.ts
++@@ -22,9 +22,6 @@ const slug = getRouterParam(event, 'slug');
++         throw new HttpException(404, {errors: {article: ['not found']}});
++     }
++ 
++-    if (existingArticle.author.id !== auth.id) {
++-        throw new HttpException(403, {errors: {article: ['forbidden']}});
++-    }
++     await usePrisma().article.delete({
++         where: {
++             slug,

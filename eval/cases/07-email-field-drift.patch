@@ -1,0 +1,13 @@
+diff --git a/src/pages/auth.page.ts b/src/pages/auth.page.ts
+index efd18db..e75755f 100644
+--- a/src/pages/auth.page.ts
++++ b/src/pages/auth.page.ts
+@@ -8,7 +8,7 @@ export class AuthPage {
+ 
+   constructor(private readonly page: Page) {
+     this.username = page.getByPlaceholder('Username');
+-    this.email = page.getByPlaceholder('Email');
++    this.email = page.getByPlaceholder('Email address');
+     this.password = page.getByPlaceholder('Password');
+     this.errors = page.locator('.error-messages');
+   }

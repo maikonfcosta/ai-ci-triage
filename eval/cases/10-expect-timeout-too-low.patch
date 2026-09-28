@@ -1,0 +1,12 @@
+diff --git a/playwright.config.ts b/playwright.config.ts
+index 99b34da..a6a45ae 100644
+--- a/playwright.config.ts
++++ b/playwright.config.ts
+@@ -9,6 +9,7 @@ export default defineConfig({
+   forbidOnly: isCI,
+   retries: isCI ? 1 : 0,
+   workers: isCI ? 2 : undefined,
++  expect: { timeout: 100 },
+   reporter: isCI
+     ? [['github'], ['html', { open: 'never' }], ['json', { outputFile: 'test-results/results.json' }]]
+     : [['list'], ['html', { open: 'never' }]],

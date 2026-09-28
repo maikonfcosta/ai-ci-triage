@@ -1,0 +1,13 @@
+diff --git a/src/pages/editor.page.ts b/src/pages/editor.page.ts
+index 5ac4d19..8de323a 100644
+--- a/src/pages/editor.page.ts
++++ b/src/pages/editor.page.ts
+@@ -35,7 +35,7 @@ export class EditorPage {
+         /\/api\/articles(\/[^/]+)?$/.test(new URL(res.url()).pathname) &&
+         ['POST', 'PUT'].includes(res.request().method()),
+     );
+-    await this.page.getByRole('button', { name: 'Publish Article' }).click();
++    await this.page.getByRole('button', { name: 'Publish', exact: true }).click();
+     return saved;
+   }
+ }
