@@ -1,0 +1,122 @@
+[
+ {
+  "test": "env: API refuses connections while loading the feed",
+  "project": "chromium",
+  "location": "e2e/dataset/browser-env.spec.ts:4",
+  "status": "unexpected",
+  "category": "environment",
+  "confidence": "high",
+  "reason": "the page saw a failed request (net::ERR_CONNECTION_REFUSED)",
+  "error": "Error: expect(locator).toBeVisible() failed"
+ },
+ {
+  "test": "env: API times out while loading tags",
+  "project": "chromium",
+  "location": "e2e/dataset/browser-env.spec.ts:12",
+  "status": "unexpected",
+  "category": "environment",
+  "confidence": "high",
+  "reason": "the page saw a failed request (net::ERR_TIMED_OUT)",
+  "error": "Error: expect(locator).toBeVisible() failed"
+ },
+ {
+  "test": "env: API answers 503 on the article page",
+  "project": "chromium",
+  "location": "e2e/dataset/browser-env.spec.ts:20",
+  "status": "unexpected",
+  "category": "environment",
+  "confidence": "high",
+  "reason": "the page saw a failed request (503)",
+  "error": "Error: expect(locator).toHaveText(expected) failed"
+ },
+ {
+  "test": "drift: clicks a button that was renamed",
+  "project": "chromium",
+  "location": "e2e/dataset/drift.spec.ts:4",
+  "status": "unexpected",
+  "category": "test",
+  "confidence": "low",
+  "reason": "an action timed out waiting for an element",
+  "error": "TimeoutError: locator.click: Timeout 3000ms exceeded."
+ },
+ {
+  "test": "drift: fills a field whose placeholder changed",
+  "project": "chromium",
+  "location": "e2e/dataset/drift.spec.ts:9",
+  "status": "unexpected",
+  "category": "test",
+  "confidence": "low",
+  "reason": "an action timed out waiting for an element",
+  "error": "TimeoutError: locator.fill: Timeout 3000ms exceeded."
+ },
+ {
+  "test": "drift: follows a nav link that was renamed",
+  "project": "chromium",
+  "location": "e2e/dataset/drift.spec.ts:14",
+  "status": "unexpected",
+  "category": "test",
+  "confidence": "low",
+  "reason": "an action timed out waiting for an element",
+  "error": "TimeoutError: locator.click: Timeout 3000ms exceeded."
+ },
+ {
+  "test": "drift: checks for a heading that was renamed",
+  "project": "chromium",
+  "location": "e2e/dataset/drift.spec.ts:19",
+  "status": "unexpected",
+  "category": "product",
+  "confidence": "low",
+  "reason": "the asserted element does not exist; the test may be outdated",
+  "error": "Error: expect(locator).toBeVisible() failed"
+ },
+ {
+  "test": "drift: waits for a sidebar title that was renamed",
+  "project": "chromium",
+  "location": "e2e/dataset/drift.spec.ts:24",
+  "status": "unexpected",
+  "category": "product",
+  "confidence": "low",
+  "reason": "the asserted element does not exist; the test may be outdated",
+  "error": "Error: expect(locator).toBeVisible() failed"
+ },
+ {
+  "test": "product: popular tags come back empty",
+  "project": "chromium",
+  "location": "e2e/dataset/product.spec.ts:5",
+  "status": "unexpected",
+  "category": "product",
+  "confidence": "low",
+  "reason": "the asserted element does not exist; the test may be outdated",
+  "error": "Error: expect(locator).toBeVisible() failed"
+ },
+ {
+  "test": "product: article title is saved with the wrong text",
+  "project": "chromium",
+  "location": "e2e/dataset/product.spec.ts:14",
+  "status": "unexpected",
+  "category": "product",
+  "confidence": "high",
+  "reason": "a business assertion failed on a healthy app",
+  "error": "Error: expect(locator).toHaveText(expected) failed"
+ },
+ {
+  "test": "product: article shows the wrong author",
+  "project": "chromium",
+  "location": "e2e/dataset/product.spec.ts:28",
+  "status": "unexpected",
+  "category": "product",
+  "confidence": "high",
+  "reason": "a business assertion failed on a healthy app",
+  "error": "Error: expect(locator).toHaveText(expected) failed"
+ },
+ {
+  "test": "product: new comment disappears after posting",
+  "project": "chromium",
+  "location": "e2e/dataset/product.spec.ts:42",
+  "status": "unexpected",
+  "category": "product",
+  "confidence": "high",
+  "reason": "a business assertion failed on a healthy app",
+  "error": "Error: expect(locator).toHaveText(expected) failed"
+ }
+]
