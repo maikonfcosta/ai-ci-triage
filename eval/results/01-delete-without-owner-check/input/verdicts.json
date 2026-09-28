@@ -1,0 +1,12 @@
+[
+ {
+  "test": "ownership > another user cannot delete my article",
+  "project": "api",
+  "location": "api/ownership.spec.ts:16",
+  "status": "unexpected",
+  "category": "product",
+  "confidence": "high",
+  "reason": "a business assertion failed on a healthy app",
+  "error": "Error: expect(received).toBe(expected) // Object.is equality"
+ }
+]

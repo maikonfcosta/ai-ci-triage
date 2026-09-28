@@ -20,6 +20,14 @@ describe('selectFailures', () => {
     expect(author?.frames).toEqual([{ file: '<suite>/tests/e2e/dataset/product.spec.ts', line: 39, column: 49 }]);
   });
 
+  // A timed-out test lists "Test timeout" first; the locator it was waiting for is in a later error.
+  it('keeps every error of a timed-out test, so the hung locator reaches the prompt', () => {
+    const [timedOut] = selectFailures('tests/fixtures/timeout-report.json', 'tests/fixtures/timeout-verdicts.json');
+
+    expect(timedOut.message).toContain("waiting for getByPlaceholder('Write your comment...')");
+    expect(timedOut.frames.map((f) => `${f.file.split('/').slice(-3).join('/')}:${f.line}`)).toContain('src/pages/article.page.ts:28');
+  });
+
   it('refuses a file that is not a Playwright report', () => {
     expect(() => selectFailures(VERDICTS, VERDICTS)).toThrow(/not a Playwright JSON report/);
   });

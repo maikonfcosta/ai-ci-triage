@@ -1,0 +1,237 @@
+<error test="sign up and sign in > new visitor signs up and lands on the home page signed in" project="chromium" location="e2e/auth.spec.ts:8" classifier="unknown, low: no rule matched">
+Test timeout of 30000ms exceeded.
+
+Error: locator.fill: Test timeout of 30000ms exceeded.
+Call log:
+  - waiting for getByPlaceholder('Email address')
+
+
+   at ../src/pages/auth.page.ts:19
+
+  17 |     await this.page.goto('/register');
+  18 |     await this.username.fill(user.username);
+> 19 |     await this.email.fill(user.email);
+     |                      ^
+  20 |     await this.password.fill(user.password);
+  21 |     await this.page.getByRole('button', { name: 'Sign up' }).click();
+  22 |   }
+    at AuthPage.signUp (/home/runner/work/playwright-reference-suite/playwright-reference-suite/src/pages/auth.page.ts:19:22)
+    at /home/runner/work/playwright-reference-suite/playwright-reference-suite/tests/e2e/auth.spec.ts:11:5
+</error>
+
+<error test="sign up and sign in > existing user signs in" project="chromium" location="e2e/auth.spec.ts:17" classifier="unknown, low: no rule matched">
+Test timeout of 30000ms exceeded.
+
+Error: locator.fill: Test timeout of 30000ms exceeded.
+Call log:
+  - waiting for getByPlaceholder('Email address')
+
+
+   at ../src/pages/auth.page.ts:26
+
+  24 |   async signIn(email: string, password: string) {
+  25 |     await this.page.goto('/login');
+> 26 |     await this.email.fill(email);
+     |                      ^
+  27 |     await this.password.fill(password);
+  28 |     await this.page.getByRole('button', { name: 'Sign in' }).click();
+  29 |   }
+    at AuthPage.signIn (/home/runner/work/playwright-reference-suite/playwright-reference-suite/src/pages/auth.page.ts:26:22)
+    at /home/runner/work/playwright-reference-suite/playwright-reference-suite/tests/e2e/auth.spec.ts:21:5
+</error>
+
+<error test="sign up and sign in > wrong password keeps the user on the sign in page with an error" project="chromium" location="e2e/auth.spec.ts:26" classifier="unknown, low: no rule matched">
+Test timeout of 30000ms exceeded.
+
+Error: locator.fill: Test timeout of 30000ms exceeded.
+Call log:
+  - waiting for getByPlaceholder('Email address')
+
+
+   at ../src/pages/auth.page.ts:26
+
+  24 |   async signIn(email: string, password: string) {
+  25 |     await this.page.goto('/login');
+> 26 |     await this.email.fill(email);
+     |                      ^
+  27 |     await this.password.fill(password);
+  28 |     await this.page.getByRole('button', { name: 'Sign in' }).click();
+  29 |   }
+    at AuthPage.signIn (/home/runner/work/playwright-reference-suite/playwright-reference-suite/src/pages/auth.page.ts:26:22)
+    at /home/runner/work/playwright-reference-suite/playwright-reference-suite/tests/e2e/auth.spec.ts:27:5
+</error>
+
+<source file="src/pages/auth.page.ts" around="19">
+     1 | import type { Locator, Page } from '@playwright/test';
+     2 | 
+     3 | export class AuthPage {
+     4 |   readonly username: Locator;
+     5 |   readonly email: Locator;
+     6 |   readonly password: Locator;
+     7 |   readonly errors: Locator;
+     8 | 
+     9 |   constructor(private readonly page: Page) {
+    10 |     this.username = page.getByPlaceholder('Username');
+    11 |     this.email = page.getByPlaceholder('Email address');
+    12 |     this.password = page.getByPlaceholder('Password');
+    13 |     this.errors = page.locator('.error-messages');
+    14 |   }
+    15 | 
+    16 |   async signUp(user: { username: string; email: string; password: string }) {
+    17 |     await this.page.goto('/register');
+    18 |     await this.username.fill(user.username);
+>   19 |     await this.email.fill(user.email);
+    20 |     await this.password.fill(user.password);
+    21 |     await this.page.getByRole('button', { name: 'Sign up' }).click();
+    22 |   }
+    23 | 
+    24 |   async signIn(email: string, password: string) {
+    25 |     await this.page.goto('/login');
+    26 |     await this.email.fill(email);
+    27 |     await this.password.fill(password);
+    28 |     await this.page.getByRole('button', { name: 'Sign in' }).click();
+    29 |   }
+    30 | }
+    31 | 
+</source>
+
+<source file="tests/e2e/auth.spec.ts" around="11">
+     1 | import { test, expect } from '../fixtures';
+     2 | import { newUser } from '../../src/data/factory';
+     3 | 
+     4 | // These are the only tests that go through the login form, so they start without a session.
+     5 | test.use({ storageState: { cookies: [], origins: [] } });
+     6 | 
+     7 | test.describe('sign up and sign in', { tag: '@critical' }, () => {
+     8 |   test('new visitor signs up and lands on the home page signed in', async ({ page, authPage }) => {
+     9 |     const user = newUser('signup');
+    10 | 
+>   11 |     await authPage.signUp(user);
+    12 | 
+    13 |     await expect(page).toHaveURL('/');
+    14 |     await expect(page.locator('app-layout-header').getByRole('link', { name: user.username })).toBeVisible();
+    15 |   });
+    16 | 
+    17 |   test('existing user signs in', async ({ page, authPage, api }) => {
+    18 |     const credentials = newUser('signin');
+    19 |     await api.registerOk(credentials);
+    20 | 
+    21 |     await authPage.signIn(credentials.email, credentials.password);
+    22 | 
+    23 |     await expect(page.locator('app-layout-header').getByRole('link', { name: credentials.username })).toBeVisible();
+    24 |   });
+    25 | 
+    26 |   test('wrong password keeps the user on the sign in page with an error', async ({ page, authPage, me }) => {
+    27 |     await authPage.signIn(me.email, 'wrong-password');
+    28 | 
+    29 |     await expect(authPage.errors).toContainText('credentials invalid');
+    30 |     await expect(page).toHaveURL('/login');
+    31 |   });
+</source>
+
+<source file="src/pages/auth.page.ts" around="26">
+     6 |   readonly password: Locator;
+     7 |   readonly errors: Locator;
+     8 | 
+     9 |   constructor(private readonly page: Page) {
+    10 |     this.username = page.getByPlaceholder('Username');
+    11 |     this.email = page.getByPlaceholder('Email address');
+    12 |     this.password = page.getByPlaceholder('Password');
+    13 |     this.errors = page.locator('.error-messages');
+    14 |   }
+    15 | 
+    16 |   async signUp(user: { username: string; email: string; password: string }) {
+    17 |     await this.page.goto('/register');
+    18 |     await this.username.fill(user.username);
+    19 |     await this.email.fill(user.email);
+    20 |     await this.password.fill(user.password);
+    21 |     await this.page.getByRole('button', { name: 'Sign up' }).click();
+    22 |   }
+    23 | 
+    24 |   async signIn(email: string, password: string) {
+    25 |     await this.page.goto('/login');
+>   26 |     await this.email.fill(email);
+    27 |     await this.password.fill(password);
+    28 |     await this.page.getByRole('button', { name: 'Sign in' }).click();
+    29 |   }
+    30 | }
+    31 | 
+</source>
+
+<source file="tests/e2e/auth.spec.ts" around="21">
+     1 | import { test, expect } from '../fixtures';
+     2 | import { newUser } from '../../src/data/factory';
+     3 | 
+     4 | // These are the only tests that go through the login form, so they start without a session.
+     5 | test.use({ storageState: { cookies: [], origins: [] } });
+     6 | 
+     7 | test.describe('sign up and sign in', { tag: '@critical' }, () => {
+     8 |   test('new visitor signs up and lands on the home page signed in', async ({ page, authPage }) => {
+     9 |     const user = newUser('signup');
+    10 | 
+    11 |     await authPage.signUp(user);
+    12 | 
+    13 |     await expect(page).toHaveURL('/');
+    14 |     await expect(page.locator('app-layout-header').getByRole('link', { name: user.username })).toBeVisible();
+    15 |   });
+    16 | 
+    17 |   test('existing user signs in', async ({ page, authPage, api }) => {
+    18 |     const credentials = newUser('signin');
+    19 |     await api.registerOk(credentials);
+    20 | 
+>   21 |     await authPage.signIn(credentials.email, credentials.password);
+    22 | 
+    23 |     await expect(page.locator('app-layout-header').getByRole('link', { name: credentials.username })).toBeVisible();
+    24 |   });
+    25 | 
+    26 |   test('wrong password keeps the user on the sign in page with an error', async ({ page, authPage, me }) => {
+    27 |     await authPage.signIn(me.email, 'wrong-password');
+    28 | 
+    29 |     await expect(authPage.errors).toContainText('credentials invalid');
+    30 |     await expect(page).toHaveURL('/login');
+    31 |   });
+    32 | });
+    33 | 
+</source>
+
+<source file="tests/e2e/auth.spec.ts" around="27">
+     7 | test.describe('sign up and sign in', { tag: '@critical' }, () => {
+     8 |   test('new visitor signs up and lands on the home page signed in', async ({ page, authPage }) => {
+     9 |     const user = newUser('signup');
+    10 | 
+    11 |     await authPage.signUp(user);
+    12 | 
+    13 |     await expect(page).toHaveURL('/');
+    14 |     await expect(page.locator('app-layout-header').getByRole('link', { name: user.username })).toBeVisible();
+    15 |   });
+    16 | 
+    17 |   test('existing user signs in', async ({ page, authPage, api }) => {
+    18 |     const credentials = newUser('signin');
+    19 |     await api.registerOk(credentials);
+    20 | 
+    21 |     await authPage.signIn(credentials.email, credentials.password);
+    22 | 
+    23 |     await expect(page.locator('app-layout-header').getByRole('link', { name: credentials.username })).toBeVisible();
+    24 |   });
+    25 | 
+    26 |   test('wrong password keeps the user on the sign in page with an error', async ({ page, authPage, me }) => {
+>   27 |     await authPage.signIn(me.email, 'wrong-password');
+    28 | 
+    29 |     await expect(authPage.errors).toContainText('credentials invalid');
+    30 |     await expect(page).toHaveURL('/login');
+    31 |   });
+    32 | });
+    33 | 
+</source>
+
+<diff file="src/pages/auth.page.ts">
+@@ -8,7 +8,7 @@ export class AuthPage {
+ 
+   constructor(private readonly page: Page) {
+     this.username = page.getByPlaceholder('Username');
+-    this.email = page.getByPlaceholder('Email');
++    this.email = page.getByPlaceholder('Email address');
+     this.password = page.getByPlaceholder('Password');
+     this.errors = page.locator('.error-messages');
+   }
+</diff>

@@ -1,0 +1,60 @@
+<error test="author publishes an article and sees it rendered" project="chromium" location="e2e/publish-article.spec.ts:4" classifier="product, high: a business assertion failed on a healthy app">
+Error: expect(locator).toHaveText(expected) failed
+
+Locator:  getByRole('heading', { level: 1 })
+Expected: "First line with **bold** text."
+Received: "Release checklist f4a8f45a"
+Timeout:  5000ms
+
+Call log:
+  - Expect "toHaveText" getByRole('heading', { level: 1 }) with timeout 5000ms
+  - waiting for getByRole('heading', { level: 1 })
+    14 × locator resolved to <h1>Release checklist f4a8f45a</h1>
+       - unexpected value "Release checklist f4a8f45a"
+
+
+  12 |   const { article } = await saved.json();
+  13 |   await expect(page).toHaveURL(`/article/${article.slug}`);
+> 14 |   await expect(articlePage.heading).toHaveText(draft.body);
+     |                                     ^
+  15 |   await expect(page.locator('.article-content strong')).toHaveText('bold');
+  16 |   await expect(page.locator('.article-content .tag-list li')).toHaveText(['release', 'checklist']);
+  17 |
+    at /home/runner/work/playwright-reference-suite/playwright-reference-suite/tests/e2e/publish-article.spec.ts:14:37
+</error>
+
+<source file="tests/e2e/publish-article.spec.ts" around="14">
+     1 | import { test, expect } from '../fixtures';
+     2 | import { newArticle } from '../../src/data/factory';
+     3 | 
+     4 | test('author publishes an article and sees it rendered', { tag: '@critical' }, async ({ page, editorPage, articlePage, myApi }) => {
+     5 |   const draft = newArticle({ body: 'First line with **bold** text.', tagList: ['release', 'checklist'] });
+     6 | 
+     7 |   await editorPage.open();
+     8 |   await editorPage.fillForm(draft);
+     9 |   const saved = await editorPage.publish();
+    10 | 
+    11 |   expect(saved.status()).toBe(201);
+    12 |   const { article } = await saved.json();
+    13 |   await expect(page).toHaveURL(`/article/${article.slug}`);
+>   14 |   await expect(articlePage.heading).toHaveText(draft.body);
+    15 |   await expect(page.locator('.article-content strong')).toHaveText('bold');
+    16 |   await expect(page.locator('.article-content .tag-list li')).toHaveText(['release', 'checklist']);
+    17 | 
+    18 |   // The UI can lie; the API is the source of truth for what was stored.
+    19 |   const stored = await (await myApi.getArticle(article.slug)).json();
+    20 |   expect(stored.article).toMatchObject({ title: draft.title, description: draft.description });
+    21 | });
+    22 | 
+</source>
+
+<diff file="tests/e2e/publish-article.spec.ts">
+@@ -11,7 +11,7 @@ test('author publishes an article and sees it rendered', { tag: '@critical' }, a
+   expect(saved.status()).toBe(201);
+   const { article } = await saved.json();
+   await expect(page).toHaveURL(`/article/${article.slug}`);
+-  await expect(articlePage.heading).toHaveText(draft.title);
++  await expect(articlePage.heading).toHaveText(draft.body);
+   await expect(page.locator('.article-content strong')).toHaveText('bold');
+   await expect(page.locator('.article-content .tag-list li')).toHaveText(['release', 'checklist']);
+</diff>

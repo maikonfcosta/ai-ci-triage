@@ -1,0 +1,70 @@
+<error test="ownership > another user cannot delete my article" project="api" location="api/ownership.spec.ts:16" classifier="product, high: a business assertion failed on a healthy app">
+Error: expect(received).toBe(expected) // Object.is equality
+
+Expected: 403
+Received: 204
+
+  19 |     const res = await api.as(otherUser.token).deleteArticle(article.slug);
+  20 |
+> 21 |     expect(res.status()).toBe(403);
+     |                          ^
+  22 |     expect((await api.getArticle(article.slug)).status()).toBe(200);
+  23 |   });
+  24 |
+    at /home/runner/work/playwright-reference-suite/playwright-reference-suite/tests/api/ownership.spec.ts:21:26
+</error>
+
+<source file="tests/api/ownership.spec.ts" around="21">
+     1 | import { test, expect } from '../fixtures';
+     2 | import { newArticle } from '../../src/data/factory';
+     3 | 
+     4 | // Access control: a logged-in user must not change someone else's content.
+     5 | test.describe('ownership', { tag: '@critical' }, () => {
+     6 |   test('another user cannot edit my article', async ({ myApi, api, otherUser }) => {
+     7 |     const article = await myApi.createArticleOk(newArticle());
+     8 | 
+     9 |     const res = await api.as(otherUser.token).updateArticle(article.slug, { title: 'hijacked' });
+    10 | 
+    11 |     expect(res.status()).toBe(403);
+    12 |     const current = await (await api.getArticle(article.slug)).json();
+    13 |     expect(current.article.title).toBe(article.title);
+    14 |   });
+    15 | 
+    16 |   test('another user cannot delete my article', async ({ myApi, api, otherUser }) => {
+    17 |     const article = await myApi.createArticleOk(newArticle());
+    18 | 
+    19 |     const res = await api.as(otherUser.token).deleteArticle(article.slug);
+    20 | 
+>   21 |     expect(res.status()).toBe(403);
+    22 |     expect((await api.getArticle(article.slug)).status()).toBe(200);
+    23 |   });
+    24 | 
+    25 |   test('another user cannot delete my comment', async ({ myApi, api, otherUser }) => {
+    26 |     const article = await myApi.createArticleOk(newArticle());
+    27 |     const { comment } = await (await myApi.addComment(article.slug, 'mine')).json();
+    28 | 
+    29 |     const res = await api.as(otherUser.token).deleteComment(article.slug, comment.id);
+    30 | 
+    31 |     expect(res.status()).toBe(403);
+    32 |   });
+    33 | });
+    34 | 
+</source>
+
+<diff file="docker/patches/api/01-delete-without-owner-check.patch">
+@@ -0,0 +1,14 @@
++diff --git a/server/routes/api/articles/[slug]/index.delete.ts b/server/routes/api/articles/[slug]/index.delete.ts
++index 887669b..fc11a9e 100644
++--- a/server/routes/api/articles/[slug]/index.delete.ts
+++++ b/server/routes/api/articles/[slug]/index.delete.ts
++@@ -22,9 +22,6 @@ const slug = getRouterParam(event, 'slug');
++         throw new HttpException(404, {errors: {article: ['not found']}});
++     }
++ 
++-    if (existingArticle.author.id !== auth.id) {
++-        throw new HttpException(403, {errors: {article: ['forbidden']}});
++-    }
++     await usePrisma().article.delete({
++         where: {
++             slug,
+</diff>

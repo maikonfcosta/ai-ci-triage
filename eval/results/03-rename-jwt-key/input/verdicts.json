@@ -1,0 +1,32 @@
+[
+ {
+  "test": "reader comments on an article and the comment survives a reload",
+  "project": "chromium",
+  "location": "e2e/comment.spec.ts:4",
+  "status": "unexpected",
+  "category": "unknown",
+  "confidence": "low",
+  "reason": "no rule matched",
+  "error": "Test timeout of 30000ms exceeded."
+ },
+ {
+  "test": "author publishes an article and sees it rendered",
+  "project": "chromium",
+  "location": "e2e/publish-article.spec.ts:4",
+  "status": "unexpected",
+  "category": "unknown",
+  "confidence": "low",
+  "reason": "no rule matched",
+  "error": "Test timeout of 30000ms exceeded."
+ },
+ {
+  "test": "browser starts signed in with the session created by the API",
+  "project": "chromium",
+  "location": "e2e/session.spec.ts:3",
+  "status": "unexpected",
+  "category": "product",
+  "confidence": "low",
+  "reason": "the asserted element does not exist; the test may be outdated",
+  "error": "Error: expect(locator).toBeVisible() failed"
+ }
+]

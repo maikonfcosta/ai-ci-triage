@@ -6,7 +6,7 @@ index 99b34da..a6a45ae 100644
    forbidOnly: isCI,
    retries: isCI ? 1 : 0,
    workers: isCI ? 2 : undefined,
-+  expect: { timeout: 100 },
++  expect: { timeout: 1 },
    reporter: isCI
      ? [['github'], ['html', { open: 'never' }], ['json', { outputFile: 'test-results/results.json' }]]
      : [['list'], ['html', { open: 'never' }]],

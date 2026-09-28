@@ -1,0 +1,257 @@
+<error test="reader comments on an article and the comment survives a reload" project="chromium" location="e2e/comment.spec.ts:4" classifier="unknown, low: no rule matched">
+Test timeout of 30000ms exceeded.
+
+Error: page.waitForResponse: Test timeout of 30000ms exceeded.
+
+   at ../src/pages/article.page.ts:25
+
+  23 |
+  24 |   async postComment(body: string) {
+> 25 |     const saved = this.page.waitForResponse(
+     |                             ^
+  26 |       (res) => res.url().includes('/comments') && res.request().method() === 'POST',
+  27 |     );
+  28 |     await this.commentBox.fill(body);
+    at ArticlePage.postComment (/home/runner/work/playwright-reference-suite/playwright-reference-suite/src/pages/article.page.ts:25:29)
+    at /home/runner/work/playwright-reference-suite/playwright-reference-suite/tests/e2e/comment.spec.ts:8:35
+
+Error: locator.fill: Test timeout of 30000ms exceeded.
+Call log:
+  - waiting for getByPlaceholder('Write a comment...')
+
+
+   at ../src/pages/article.page.ts:28
+
+  26 |       (res) => res.url().includes('/comments') && res.request().method() === 'POST',
+  27 |     );
+> 28 |     await this.commentBox.fill(body);
+     |                           ^
+  29 |     await this.page.getByRole('button', { name: 'Post Comment' }).click();
+  30 |     return saved;
+  31 |   }
+    at ArticlePage.postComment (/home/runner/work/playwright-reference-suite/playwright-reference-suite/src/pages/article.page.ts:28:27)
+    at /home/runner/work/playwright-reference-suite/playwright-reference-suite/tests/e2e/comment.spec.ts:8:35
+</error>
+
+<error test="author publishes an article and sees it rendered" project="chromium" location="e2e/publish-article.spec.ts:4" classifier="unknown, low: no rule matched">
+Test timeout of 30000ms exceeded.
+
+Error: locator.fill: Test timeout of 30000ms exceeded.
+Call log:
+  - waiting for getByPlaceholder('Article Title')
+
+
+   at ../src/pages/editor.page.ts:22
+
+  20 |
+  21 |   async fillForm(article: Partial<NewArticle>) {
+> 22 |     if (article.title !== undefined) await this.title.fill(article.title);
+     |                                                       ^
+  23 |     if (article.description !== undefined) await this.description.fill(article.description);
+  24 |     if (article.body !== undefined) await this.body.fill(article.body);
+  25 |     for (const tag of article.tagList ?? []) {
+    at EditorPage.fillForm (/home/runner/work/playwright-reference-suite/playwright-reference-suite/src/pages/editor.page.ts:22:55)
+    at /home/runner/work/playwright-reference-suite/playwright-reference-suite/tests/e2e/publish-article.spec.ts:8:20
+</error>
+
+<error test="browser starts signed in with the session created by the API" project="chromium" location="e2e/session.spec.ts:3" classifier="product, low: the asserted element does not exist; the test may be outdated">
+Error: expect(locator).toBeVisible() failed
+
+Locator: getByRole('link', { name: 'New Article' })
+Expected: visible
+Timeout: 5000ms
+Error: element(s) not found
+
+Call log:
+  - Expect "toBeVisible" getByRole('link', { name: 'New Article' }) with timeout 5000ms
+  - waiting for getByRole('link', { name: 'New Article' })
+
+
+  4 |   await page.goto('/');
+  5 |
+> 6 |   await expect(page.getByRole('link', { name: 'New Article' })).toBeVisible();
+    |                                                                 ^
+  7 |   await expect(page.locator('app-layout-header').getByRole('link', { name: me.username })).toBeVisible();
+  8 | });
+  9 |
+    at /home/runner/work/playwright-reference-suite/playwright-reference-suite/tests/e2e/session.spec.ts:6:65
+</error>
+
+<source file="src/pages/article.page.ts" around="25">
+     5 |   readonly commentBox: Locator;
+     6 |   readonly comments: Locator;
+     7 |   readonly editButton: Locator;
+     8 |   readonly deleteButton: Locator;
+     9 | 
+    10 |   constructor(private readonly page: Page) {
+    11 |     this.heading = page.getByRole('heading', { level: 1 });
+    12 |     this.commentBox = page.getByPlaceholder('Write a comment...');
+    13 |     this.comments = page.locator('app-article-comment .card-text');
+    14 |     this.editButton = page.getByRole('link', { name: 'Edit Article' }).first();
+    15 |     this.deleteButton = page.getByRole('button', { name: 'Delete Article' }).first();
+    16 |   }
+    17 | 
+    18 |   async open(slug: string) {
+    19 |     const loaded = this.page.waitForResponse((res) => res.url().endsWith(`/api/articles/${slug}`) && res.ok());
+    20 |     await this.page.goto(`/article/${slug}`);
+    21 |     await loaded;
+    22 |   }
+    23 | 
+    24 |   async postComment(body: string) {
+>   25 |     const saved = this.page.waitForResponse(
+    26 |       (res) => res.url().includes('/comments') && res.request().method() === 'POST',
+    27 |     );
+    28 |     await this.commentBox.fill(body);
+    29 |     await this.page.getByRole('button', { name: 'Post Comment' }).click();
+    30 |     return saved;
+    31 |   }
+    32 | }
+    33 | 
+</source>
+
+<source file="tests/e2e/comment.spec.ts" around="8">
+     1 | import { test, expect } from '../fixtures';
+     2 | import { newArticle } from '../../src/data/factory';
+     3 | 
+     4 | test('reader comments on an article and the comment survives a reload', { tag: '@critical' }, async ({ page, articlePage, api, otherUser }) => {
+     5 |   const article = await api.as(otherUser.token).createArticleOk(newArticle());
+     6 | 
+     7 |   await articlePage.open(article.slug);
+>    8 |   const saved = await articlePage.postComment('Great checklist, adding it to our release notes.');
+     9 | 
+    10 |   expect(saved.status()).toBe(201);
+    11 |   await expect(articlePage.comments).toHaveText(['Great checklist, adding it to our release notes.']);
+    12 |   await expect(articlePage.commentBox).toBeEmpty();
+    13 | 
+    14 |   await page.reload();
+    15 |   await expect(articlePage.comments).toHaveText(['Great checklist, adding it to our release notes.']);
+    16 | });
+    17 | 
+</source>
+
+<source file="src/pages/article.page.ts" around="28">
+     8 |   readonly deleteButton: Locator;
+     9 | 
+    10 |   constructor(private readonly page: Page) {
+    11 |     this.heading = page.getByRole('heading', { level: 1 });
+    12 |     this.commentBox = page.getByPlaceholder('Write a comment...');
+    13 |     this.comments = page.locator('app-article-comment .card-text');
+    14 |     this.editButton = page.getByRole('link', { name: 'Edit Article' }).first();
+    15 |     this.deleteButton = page.getByRole('button', { name: 'Delete Article' }).first();
+    16 |   }
+    17 | 
+    18 |   async open(slug: string) {
+    19 |     const loaded = this.page.waitForResponse((res) => res.url().endsWith(`/api/articles/${slug}`) && res.ok());
+    20 |     await this.page.goto(`/article/${slug}`);
+    21 |     await loaded;
+    22 |   }
+    23 | 
+    24 |   async postComment(body: string) {
+    25 |     const saved = this.page.waitForResponse(
+    26 |       (res) => res.url().includes('/comments') && res.request().method() === 'POST',
+    27 |     );
+>   28 |     await this.commentBox.fill(body);
+    29 |     await this.page.getByRole('button', { name: 'Post Comment' }).click();
+    30 |     return saved;
+    31 |   }
+    32 | }
+    33 | 
+</source>
+
+<source file="src/pages/editor.page.ts" around="22">
+     2 | import type { NewArticle } from '../data/factory';
+     3 | 
+     4 | export class EditorPage {
+     5 |   readonly title: Locator;
+     6 |   readonly description: Locator;
+     7 |   readonly body: Locator;
+     8 |   readonly tags: Locator;
+     9 | 
+    10 |   constructor(private readonly page: Page) {
+    11 |     this.title = page.getByPlaceholder('Article Title');
+    12 |     this.description = page.getByPlaceholder("What's this article about?");
+    13 |     this.body = page.getByPlaceholder('Write your article (in markdown)');
+    14 |     this.tags = page.getByPlaceholder('Enter tags');
+    15 |   }
+    16 | 
+    17 |   async open(slug?: string) {
+    18 |     await this.page.goto(slug ? `/editor/${slug}` : '/editor');
+    19 |   }
+    20 | 
+    21 |   async fillForm(article: Partial<NewArticle>) {
+>   22 |     if (article.title !== undefined) await this.title.fill(article.title);
+    23 |     if (article.description !== undefined) await this.description.fill(article.description);
+    24 |     if (article.body !== undefined) await this.body.fill(article.body);
+    25 |     for (const tag of article.tagList ?? []) {
+    26 |       await this.tags.fill(tag);
+    27 |       await this.tags.press('Enter');
+    28 |     }
+    29 |   }
+    30 | 
+    31 |   /** Clicks publish and resolves with the article the API saved. */
+    32 |   async publish() {
+    33 |     const saved = this.page.waitForResponse(
+    34 |       (res) =>
+    35 |         /\/api\/articles(\/[^/]+)?$/.test(new URL(res.url()).pathname) &&
+    36 |         ['POST', 'PUT'].includes(res.request().method()),
+    37 |     );
+    38 |     await this.page.getByRole('button', { name: 'Publish Article' }).click();
+    39 |     return saved;
+    40 |   }
+    41 | }
+    42 | 
+</source>
+
+<source file="tests/e2e/publish-article.spec.ts" around="8">
+     1 | import { test, expect } from '../fixtures';
+     2 | import { newArticle } from '../../src/data/factory';
+     3 | 
+     4 | test('author publishes an article and sees it rendered', { tag: '@critical' }, async ({ page, editorPage, articlePage, myApi }) => {
+     5 |   const draft = newArticle({ body: 'First line with **bold** text.', tagList: ['release', 'checklist'] });
+     6 | 
+     7 |   await editorPage.open();
+>    8 |   await editorPage.fillForm(draft);
+     9 |   const saved = await editorPage.publish();
+    10 | 
+    11 |   expect(saved.status()).toBe(201);
+    12 |   const { article } = await saved.json();
+    13 |   await expect(page).toHaveURL(`/article/${article.slug}`);
+    14 |   await expect(articlePage.heading).toHaveText(draft.title);
+    15 |   await expect(page.locator('.article-content strong')).toHaveText('bold');
+    16 |   await expect(page.locator('.article-content .tag-list li')).toHaveText(['release', 'checklist']);
+    17 | 
+    18 |   // The UI can lie; the API is the source of truth for what was stored.
+    19 |   const stored = await (await myApi.getArticle(article.slug)).json();
+    20 |   expect(stored.article).toMatchObject({ title: draft.title, description: draft.description });
+    21 | });
+    22 | 
+</source>
+
+<source file="tests/e2e/session.spec.ts" around="6">
+     1 | import { test, expect } from '../fixtures';
+     2 | 
+     3 | test('browser starts signed in with the session created by the API', { tag: '@critical' }, async ({ page, me }) => {
+     4 |   await page.goto('/');
+     5 | 
+>    6 |   await expect(page.getByRole('link', { name: 'New Article' })).toBeVisible();
+     7 |   await expect(page.locator('app-layout-header').getByRole('link', { name: me.username })).toBeVisible();
+     8 | });
+     9 | 
+</source>
+
+<diff file="docker/patches/web/03-rename-jwt-key.patch">
+@@ -0,0 +1,13 @@
++diff --git a/src/app/core/auth/services/jwt.service.ts b/src/app/core/auth/services/jwt.service.ts
++index 691f43c..c72f2ee 100644
++--- a/src/app/core/auth/services/jwt.service.ts
+++++ b/src/app/core/auth/services/jwt.service.ts
++@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
++ @Injectable({ providedIn: 'root' })
++ export class JwtService {
++   getToken(): string {
++-    return window.localStorage['jwtToken'];
+++    return window.localStorage['jwt'];
++   }
++ 
++   saveToken(token: string): void {
+</diff>

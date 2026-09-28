@@ -1,0 +1,71 @@
+<error test="author publishes an article and sees it rendered" project="chromium" location="e2e/publish-article.spec.ts:4" classifier="product, high: a business assertion failed on a healthy app">
+Error: expect(locator).toHaveText(expected) failed
+
+Locator: locator('.article-content .tag-list li')
+Timeout: 5000ms
+- Expected  - 2
++ Received  + 1
+
+  Array [
+-   "release",
+-   "checklist",
++   " checklist ",
+  ]
+
+Call log:
+  - Expect "toHaveText" locator('.article-content .tag-list li') with timeout 5000ms
+  - waiting for locator('.article-content .tag-list li')
+    14 × locator resolved to 1 element
+
+
+  14 |   await expect(articlePage.heading).toHaveText(draft.title);
+  15 |   await expect(page.locator('.article-content strong')).toHaveText('bold');
+> 16 |   await expect(page.locator('.article-content .tag-list li')).toHaveText(['release', 'checklist']);
+     |                                                               ^
+  17 |
+  18 |   // The UI can lie; the API is the source of truth for what was stored.
+  19 |   const stored = await (await myApi.getArticle(article.slug)).json();
+    at /home/runner/work/playwright-reference-suite/playwright-reference-suite/tests/e2e/publish-article.spec.ts:16:63
+</error>
+
+<source file="tests/e2e/publish-article.spec.ts" around="16">
+     1 | import { test, expect } from '../fixtures';
+     2 | import { newArticle } from '../../src/data/factory';
+     3 | 
+     4 | test('author publishes an article and sees it rendered', { tag: '@critical' }, async ({ page, editorPage, articlePage, myApi }) => {
+     5 |   const draft = newArticle({ body: 'First line with **bold** text.', tagList: ['release', 'checklist'] });
+     6 | 
+     7 |   await editorPage.open();
+     8 |   await editorPage.fillForm(draft);
+     9 |   const saved = await editorPage.publish();
+    10 | 
+    11 |   expect(saved.status()).toBe(201);
+    12 |   const { article } = await saved.json();
+    13 |   await expect(page).toHaveURL(`/article/${article.slug}`);
+    14 |   await expect(articlePage.heading).toHaveText(draft.title);
+    15 |   await expect(page.locator('.article-content strong')).toHaveText('bold');
+>   16 |   await expect(page.locator('.article-content .tag-list li')).toHaveText(['release', 'checklist']);
+    17 | 
+    18 |   // The UI can lie; the API is the source of truth for what was stored.
+    19 |   const stored = await (await myApi.getArticle(article.slug)).json();
+    20 |   expect(stored.article).toMatchObject({ title: draft.title, description: draft.description });
+    21 | });
+    22 | 
+</source>
+
+<diff file="docker/patches/api/04-drop-tags-on-create.patch">
+@@ -0,0 +1,13 @@
++diff --git a/server/routes/api/articles/index.post.ts b/server/routes/api/articles/index.post.ts
++index 37bf7d7..19a3ff6 100644
++--- a/server/routes/api/articles/index.post.ts
+++++ b/server/routes/api/articles/index.post.ts
++@@ -25,7 +25,7 @@ export default definePrivateEventHandler(async (event, {auth}) => {
++                 slug,
++                 // connectOrCreate issues one SELECT + conditional INSERT per tag (not batched, but ok for now)
++                 tagList: {
++-                    connectOrCreate: tagList.map((tag: string) => ({
+++                    connectOrCreate: tagList.slice(1).map((tag: string) => ({
++                         create: { name: tag },
++                         where: { name: tag },
++                     })),
+</diff>

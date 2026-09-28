@@ -1,0 +1,175 @@
+<error test="sign up and sign in > new visitor signs up and lands on the home page signed in" project="chromium" location="e2e/auth.spec.ts:8" classifier="product, high: a business assertion failed on a healthy app">
+Error: expect(page).toHaveURL(expected) failed
+
+Expected: "http://localhost:4200/"
+Received: "http://localhost:4200/register"
+Timeout:  1ms
+
+Call log:
+  - Expect "toHaveURL" with timeout 1ms
+
+
+  11 |     await authPage.signUp(user);
+  12 |
+> 13 |     await expect(page).toHaveURL('/');
+     |                        ^
+  14 |     await expect(page.locator('app-layout-header').getByRole('link', { name: user.username })).toBeVisible();
+  15 |   });
+  16 |
+    at /home/runner/work/playwright-reference-suite/playwright-reference-suite/tests/e2e/auth.spec.ts:13:24
+</error>
+
+<error test="sign up and sign in > existing user signs in" project="chromium" location="e2e/auth.spec.ts:17" classifier="product, low: the asserted element does not exist; the test may be outdated">
+Error: expect(locator).toBeVisible() failed
+
+Locator: locator('app-layout-header').getByRole('link', { name: 'signin_a051d352' })
+Expected: visible
+Timeout: 1ms
+Error: element(s) not found
+
+Call log:
+  - Expect "toBeVisible" locator('app-layout-header').getByRole('link', { name: 'signin_a051d352' }) with timeout 1ms
+  - waiting for locator('app-layout-header').getByRole('link', { name: 'signin_a051d352' })
+
+
+  21 |     await authPage.signIn(credentials.email, credentials.password);
+  22 |
+> 23 |     await expect(page.locator('app-layout-header').getByRole('link', { name: credentials.username })).toBeVisible();
+     |                                                                                                       ^
+  24 |   });
+  25 |
+  26 |   test('wrong password keeps the user on the sign in page with an error', async ({ page, authPage, me }) => {
+    at /home/runner/work/playwright-reference-suite/playwright-reference-suite/tests/e2e/auth.spec.ts:23:103
+</error>
+
+<error test="sign up and sign in > wrong password keeps the user on the sign in page with an error" project="chromium" location="e2e/auth.spec.ts:26" classifier="product, high: a business assertion failed on a healthy app">
+Error: expect(locator).toContainText(expected) failed
+
+Locator: locator('.error-messages')
+Expected substring: "credentials invalid"
+Received string:    ""
+Timeout: 1ms
+
+Call log:
+  - Expect "toContainText" locator('.error-messages') with timeout 1ms
+  - waiting for locator('.error-messages')
+
+
+  27 |     await authPage.signIn(me.email, 'wrong-password');
+  28 |
+> 29 |     await expect(authPage.errors).toContainText('credentials invalid');
+     |                                   ^
+  30 |     await expect(page).toHaveURL('/login');
+  31 |   });
+  32 | });
+    at /home/runner/work/playwright-reference-suite/playwright-reference-suite/tests/e2e/auth.spec.ts:29:35
+</error>
+
+<source file="tests/e2e/auth.spec.ts" around="13">
+     1 | import { test, expect } from '../fixtures';
+     2 | import { newUser } from '../../src/data/factory';
+     3 | 
+     4 | // These are the only tests that go through the login form, so they start without a session.
+     5 | test.use({ storageState: { cookies: [], origins: [] } });
+     6 | 
+     7 | test.describe('sign up and sign in', { tag: '@critical' }, () => {
+     8 |   test('new visitor signs up and lands on the home page signed in', async ({ page, authPage }) => {
+     9 |     const user = newUser('signup');
+    10 | 
+    11 |     await authPage.signUp(user);
+    12 | 
+>   13 |     await expect(page).toHaveURL('/');
+    14 |     await expect(page.locator('app-layout-header').getByRole('link', { name: user.username })).toBeVisible();
+    15 |   });
+    16 | 
+    17 |   test('existing user signs in', async ({ page, authPage, api }) => {
+    18 |     const credentials = newUser('signin');
+    19 |     await api.registerOk(credentials);
+    20 | 
+    21 |     await authPage.signIn(credentials.email, credentials.password);
+    22 | 
+    23 |     await expect(page.locator('app-layout-header').getByRole('link', { name: credentials.username })).toBeVisible();
+    24 |   });
+    25 | 
+    26 |   test('wrong password keeps the user on the sign in page with an error', async ({ page, authPage, me }) => {
+    27 |     await authPage.signIn(me.email, 'wrong-password');
+    28 | 
+    29 |     await expect(authPage.errors).toContainText('credentials invalid');
+    30 |     await expect(page).toHaveURL('/login');
+    31 |   });
+    32 | });
+    33 | 
+</source>
+
+<source file="tests/e2e/auth.spec.ts" around="23">
+     3 | 
+     4 | // These are the only tests that go through the login form, so they start without a session.
+     5 | test.use({ storageState: { cookies: [], origins: [] } });
+     6 | 
+     7 | test.describe('sign up and sign in', { tag: '@critical' }, () => {
+     8 |   test('new visitor signs up and lands on the home page signed in', async ({ page, authPage }) => {
+     9 |     const user = newUser('signup');
+    10 | 
+    11 |     await authPage.signUp(user);
+    12 | 
+    13 |     await expect(page).toHaveURL('/');
+    14 |     await expect(page.locator('app-layout-header').getByRole('link', { name: user.username })).toBeVisible();
+    15 |   });
+    16 | 
+    17 |   test('existing user signs in', async ({ page, authPage, api }) => {
+    18 |     const credentials = newUser('signin');
+    19 |     await api.registerOk(credentials);
+    20 | 
+    21 |     await authPage.signIn(credentials.email, credentials.password);
+    22 | 
+>   23 |     await expect(page.locator('app-layout-header').getByRole('link', { name: credentials.username })).toBeVisible();
+    24 |   });
+    25 | 
+    26 |   test('wrong password keeps the user on the sign in page with an error', async ({ page, authPage, me }) => {
+    27 |     await authPage.signIn(me.email, 'wrong-password');
+    28 | 
+    29 |     await expect(authPage.errors).toContainText('credentials invalid');
+    30 |     await expect(page).toHaveURL('/login');
+    31 |   });
+    32 | });
+    33 | 
+</source>
+
+<source file="tests/e2e/auth.spec.ts" around="29">
+     9 |     const user = newUser('signup');
+    10 | 
+    11 |     await authPage.signUp(user);
+    12 | 
+    13 |     await expect(page).toHaveURL('/');
+    14 |     await expect(page.locator('app-layout-header').getByRole('link', { name: user.username })).toBeVisible();
+    15 |   });
+    16 | 
+    17 |   test('existing user signs in', async ({ page, authPage, api }) => {
+    18 |     const credentials = newUser('signin');
+    19 |     await api.registerOk(credentials);
+    20 | 
+    21 |     await authPage.signIn(credentials.email, credentials.password);
+    22 | 
+    23 |     await expect(page.locator('app-layout-header').getByRole('link', { name: credentials.username })).toBeVisible();
+    24 |   });
+    25 | 
+    26 |   test('wrong password keeps the user on the sign in page with an error', async ({ page, authPage, me }) => {
+    27 |     await authPage.signIn(me.email, 'wrong-password');
+    28 | 
+>   29 |     await expect(authPage.errors).toContainText('credentials invalid');
+    30 |     await expect(page).toHaveURL('/login');
+    31 |   });
+    32 | });
+    33 | 
+</source>
+
+<diff file="playwright.config.ts">
+@@ -9,6 +9,7 @@ export default defineConfig({
+   forbidOnly: isCI,
+   retries: isCI ? 1 : 0,
+   workers: isCI ? 2 : undefined,
++  expect: { timeout: 1 },
+   reporter: isCI
+     ? [['github'], ['html', { open: 'never' }], ['json', { outputFile: 'test-results/results.json' }]]
+     : [['list'], ['html', { open: 'never' }]],
+</diff>

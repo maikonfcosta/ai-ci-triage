@@ -1,0 +1,32 @@
+[
+ {
+  "test": "sign up and sign in > new visitor signs up and lands on the home page signed in",
+  "project": "chromium",
+  "location": "e2e/auth.spec.ts:8",
+  "status": "unexpected",
+  "category": "unknown",
+  "confidence": "low",
+  "reason": "no rule matched",
+  "error": "Test timeout of 30000ms exceeded."
+ },
+ {
+  "test": "sign up and sign in > existing user signs in",
+  "project": "chromium",
+  "location": "e2e/auth.spec.ts:17",
+  "status": "unexpected",
+  "category": "unknown",
+  "confidence": "low",
+  "reason": "no rule matched",
+  "error": "Test timeout of 30000ms exceeded."
+ },
+ {
+  "test": "sign up and sign in > wrong password keeps the user on the sign in page with an error",
+  "project": "chromium",
+  "location": "e2e/auth.spec.ts:26",
+  "status": "unexpected",
+  "category": "unknown",
+  "confidence": "low",
+  "reason": "no rule matched",
+  "error": "Test timeout of 30000ms exceeded."
+ }
+]

@@ -1,0 +1,127 @@
+<error test="reader comments on an article and the comment survives a reload" project="chromium" location="e2e/comment.spec.ts:4" classifier="unknown, low: no rule matched">
+Test timeout of 30000ms exceeded.
+
+Error: page.waitForResponse: Test timeout of 30000ms exceeded.
+
+   at ../src/pages/article.page.ts:25
+
+  23 |
+  24 |   async postComment(body: string) {
+> 25 |     const saved = this.page.waitForResponse(
+     |                             ^
+  26 |       (res) => res.url().includes('/comments') && res.request().method() === 'POST',
+  27 |     );
+  28 |     await this.commentBox.fill(body);
+    at ArticlePage.postComment (/home/runner/work/playwright-reference-suite/playwright-reference-suite/src/pages/article.page.ts:25:29)
+    at /home/runner/work/playwright-reference-suite/playwright-reference-suite/tests/e2e/comment.spec.ts:8:35
+
+Error: locator.fill: Test timeout of 30000ms exceeded.
+Call log:
+  - waiting for getByPlaceholder('Write your comment...')
+
+
+   at ../src/pages/article.page.ts:28
+
+  26 |       (res) => res.url().includes('/comments') && res.request().method() === 'POST',
+  27 |     );
+> 28 |     await this.commentBox.fill(body);
+     |                           ^
+  29 |     await this.page.getByRole('button', { name: 'Post Comment' }).click();
+  30 |     return saved;
+  31 |   }
+    at ArticlePage.postComment (/home/runner/work/playwright-reference-suite/playwright-reference-suite/src/pages/article.page.ts:28:27)
+    at /home/runner/work/playwright-reference-suite/playwright-reference-suite/tests/e2e/comment.spec.ts:8:35
+</error>
+
+<source file="src/pages/article.page.ts" around="25">
+     5 |   readonly commentBox: Locator;
+     6 |   readonly comments: Locator;
+     7 |   readonly editButton: Locator;
+     8 |   readonly deleteButton: Locator;
+     9 | 
+    10 |   constructor(private readonly page: Page) {
+    11 |     this.heading = page.getByRole('heading', { level: 1 });
+    12 |     this.commentBox = page.getByPlaceholder('Write your comment...');
+    13 |     this.comments = page.locator('app-article-comment .card-text');
+    14 |     this.editButton = page.getByRole('link', { name: 'Edit Article' }).first();
+    15 |     this.deleteButton = page.getByRole('button', { name: 'Delete Article' }).first();
+    16 |   }
+    17 | 
+    18 |   async open(slug: string) {
+    19 |     const loaded = this.page.waitForResponse((res) => res.url().endsWith(`/api/articles/${slug}`) && res.ok());
+    20 |     await this.page.goto(`/article/${slug}`);
+    21 |     await loaded;
+    22 |   }
+    23 | 
+    24 |   async postComment(body: string) {
+>   25 |     const saved = this.page.waitForResponse(
+    26 |       (res) => res.url().includes('/comments') && res.request().method() === 'POST',
+    27 |     );
+    28 |     await this.commentBox.fill(body);
+    29 |     await this.page.getByRole('button', { name: 'Post Comment' }).click();
+    30 |     return saved;
+    31 |   }
+    32 | }
+    33 | 
+</source>
+
+<source file="tests/e2e/comment.spec.ts" around="8">
+     1 | import { test, expect } from '../fixtures';
+     2 | import { newArticle } from '../../src/data/factory';
+     3 | 
+     4 | test('reader comments on an article and the comment survives a reload', { tag: '@critical' }, async ({ page, articlePage, api, otherUser }) => {
+     5 |   const article = await api.as(otherUser.token).createArticleOk(newArticle());
+     6 | 
+     7 |   await articlePage.open(article.slug);
+>    8 |   const saved = await articlePage.postComment('Great checklist, adding it to our release notes.');
+     9 | 
+    10 |   expect(saved.status()).toBe(201);
+    11 |   await expect(articlePage.comments).toHaveText(['Great checklist, adding it to our release notes.']);
+    12 |   await expect(articlePage.commentBox).toBeEmpty();
+    13 | 
+    14 |   await page.reload();
+    15 |   await expect(articlePage.comments).toHaveText(['Great checklist, adding it to our release notes.']);
+    16 | });
+    17 | 
+</source>
+
+<source file="src/pages/article.page.ts" around="28">
+     8 |   readonly deleteButton: Locator;
+     9 | 
+    10 |   constructor(private readonly page: Page) {
+    11 |     this.heading = page.getByRole('heading', { level: 1 });
+    12 |     this.commentBox = page.getByPlaceholder('Write your comment...');
+    13 |     this.comments = page.locator('app-article-comment .card-text');
+    14 |     this.editButton = page.getByRole('link', { name: 'Edit Article' }).first();
+    15 |     this.deleteButton = page.getByRole('button', { name: 'Delete Article' }).first();
+    16 |   }
+    17 | 
+    18 |   async open(slug: string) {
+    19 |     const loaded = this.page.waitForResponse((res) => res.url().endsWith(`/api/articles/${slug}`) && res.ok());
+    20 |     await this.page.goto(`/article/${slug}`);
+    21 |     await loaded;
+    22 |   }
+    23 | 
+    24 |   async postComment(body: string) {
+    25 |     const saved = this.page.waitForResponse(
+    26 |       (res) => res.url().includes('/comments') && res.request().method() === 'POST',
+    27 |     );
+>   28 |     await this.commentBox.fill(body);
+    29 |     await this.page.getByRole('button', { name: 'Post Comment' }).click();
+    30 |     return saved;
+    31 |   }
+    32 | }
+    33 | 
+</source>
+
+<diff file="src/pages/article.page.ts">
+@@ -9,7 +9,7 @@ export class ArticlePage {
+ 
+   constructor(private readonly page: Page) {
+     this.heading = page.getByRole('heading', { level: 1 });
+-    this.commentBox = page.getByPlaceholder('Write a comment...');
++    this.commentBox = page.getByPlaceholder('Write your comment...');
+     this.comments = page.locator('app-article-comment .card-text');
+     this.editButton = page.getByRole('link', { name: 'Edit Article' }).first();
+     this.deleteButton = page.getByRole('button', { name: 'Delete Article' }).first();
+</diff>

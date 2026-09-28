@@ -88,7 +88,8 @@ function* failedTests(suites: PwSuite[], path: string[]): Generator<{ key: strin
       for (const test of spec.tests) {
         if (test.status !== 'unexpected' && test.status !== 'flaky') continue;
         const attempt = test.results.find((r) => r.status !== 'passed');
-        const message = attempt?.errors?.find((e) => e.message)?.message ?? '';
+        // A timed-out test reports "Test timeout" first; the error that says where it hung comes after it.
+        const message = (attempt?.errors ?? []).map((e) => e.message ?? '').filter(Boolean).join('\n\n');
         const title = [...here, spec.title].join(' > ');
         yield { key: keyOf(test.projectName, `${spec.file}:${spec.line}`, title), message: message.replace(ANSI, '') };
       }

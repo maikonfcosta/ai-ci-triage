@@ -1,0 +1,12 @@
+[
+ {
+  "test": "author publishes an article and sees it rendered",
+  "project": "chromium",
+  "location": "e2e/publish-article.spec.ts:4",
+  "status": "unexpected",
+  "category": "product",
+  "confidence": "low",
+  "reason": "the asserted element does not exist; the test may be outdated",
+  "error": "Error: expect(locator).toHaveText(expected) failed"
+ }
+]

@@ -1,0 +1,1324 @@
+{
+  "config": {
+    "argv": [
+      "/opt/hostedtoolcache/node/24.21.0/x64/bin/node",
+      "/home/runner/work/playwright-reference-suite/playwright-reference-suite/node_modules/.bin/playwright",
+      "test",
+      "--grep",
+      "@critical",
+      "--project=api",
+      "--project=chromium"
+    ],
+    "configFile": "/home/runner/work/playwright-reference-suite/playwright-reference-suite/playwright.config.ts",
+    "rootDir": "/home/runner/work/playwright-reference-suite/playwright-reference-suite/tests",
+    "failOnFlakyTests": false,
+    "forbidOnly": true,
+    "fullyParallel": true,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "ci": {
+        "commitHref": "https://github.com/maikonfcosta/playwright-reference-suite/commit/bd3e6747c6f1ac394b94bcc6d4c1bd72e063e337",
+        "commitHash": "bd3e6747c6f1ac394b94bcc6d4c1bd72e063e337",
+        "buildHref": "https://github.com/maikonfcosta/playwright-reference-suite/actions/runs/36447708387"
+      },
+      "gitCommit": {
+        "shortHash": "bd3e674",
+        "hash": "bd3e6747c6f1ac394b94bcc6d4c1bd72e063e337",
+        "subject": "eval: expect-timeout-too-low",
+        "body": "eval: expect-timeout-too-low\n",
+        "author": {
+          "name": "Maikon Costa",
+          "email": "maikonfcosta@gmail.com",
+          "time": 1790611169000
+        },
+        "committer": {
+          "name": "Maikon Costa",
+          "email": "maikonfcosta@gmail.com",
+          "time": 1790611169000
+        },
+        "branch": "eval/10-expect-timeout-too-low"
+      },
+      "actualWorkers": 2
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/home/runner/work/playwright-reference-suite/playwright-reference-suite/test-results",
+        "repeatEach": 1,
+        "retries": 1,
+        "metadata": {
+          "ci": {
+            "commitHref": "https://github.com/maikonfcosta/playwright-reference-suite/commit/bd3e6747c6f1ac394b94bcc6d4c1bd72e063e337",
+            "commitHash": "bd3e6747c6f1ac394b94bcc6d4c1bd72e063e337",
+            "buildHref": "https://github.com/maikonfcosta/playwright-reference-suite/actions/runs/36447708387"
+          },
+          "gitCommit": {
+            "shortHash": "bd3e674",
+            "hash": "bd3e6747c6f1ac394b94bcc6d4c1bd72e063e337",
+            "subject": "eval: expect-timeout-too-low",
+            "body": "eval: expect-timeout-too-low\n",
+            "author": {
+              "name": "Maikon Costa",
+              "email": "maikonfcosta@gmail.com",
+              "time": 1790611169000
+            },
+            "committer": {
+              "name": "Maikon Costa",
+              "email": "maikonfcosta@gmail.com",
+              "time": 1790611169000
+            },
+            "branch": "eval/10-expect-timeout-too-low"
+          },
+          "actualWorkers": 2
+        },
+        "id": "setup",
+        "name": "setup",
+        "testDir": "/home/runner/work/playwright-reference-suite/playwright-reference-suite/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "/auth\\.setup\\.ts/"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/home/runner/work/playwright-reference-suite/playwright-reference-suite/test-results",
+        "repeatEach": 1,
+        "retries": 1,
+        "metadata": {
+          "ci": {
+            "commitHref": "https://github.com/maikonfcosta/playwright-reference-suite/commit/bd3e6747c6f1ac394b94bcc6d4c1bd72e063e337",
+            "commitHash": "bd3e6747c6f1ac394b94bcc6d4c1bd72e063e337",
+            "buildHref": "https://github.com/maikonfcosta/playwright-reference-suite/actions/runs/36447708387"
+          },
+          "gitCommit": {
+            "shortHash": "bd3e674",
+            "hash": "bd3e6747c6f1ac394b94bcc6d4c1bd72e063e337",
+            "subject": "eval: expect-timeout-too-low",
+            "body": "eval: expect-timeout-too-low\n",
+            "author": {
+              "name": "Maikon Costa",
+              "email": "maikonfcosta@gmail.com",
+              "time": 1790611169000
+            },
+            "committer": {
+              "name": "Maikon Costa",
+              "email": "maikonfcosta@gmail.com",
+              "time": 1790611169000
+            },
+            "branch": "eval/10-expect-timeout-too-low"
+          },
+          "actualWorkers": 2
+        },
+        "id": "api",
+        "name": "api",
+        "testDir": "/home/runner/work/playwright-reference-suite/playwright-reference-suite/tests/api",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/home/runner/work/playwright-reference-suite/playwright-reference-suite/test-results",
+        "repeatEach": 1,
+        "retries": 1,
+        "metadata": {
+          "ci": {
+            "commitHref": "https://github.com/maikonfcosta/playwright-reference-suite/commit/bd3e6747c6f1ac394b94bcc6d4c1bd72e063e337",
+            "commitHash": "bd3e6747c6f1ac394b94bcc6d4c1bd72e063e337",
+            "buildHref": "https://github.com/maikonfcosta/playwright-reference-suite/actions/runs/36447708387"
+          },
+          "gitCommit": {
+            "shortHash": "bd3e674",
+            "hash": "bd3e6747c6f1ac394b94bcc6d4c1bd72e063e337",
+            "subject": "eval: expect-timeout-too-low",
+            "body": "eval: expect-timeout-too-low\n",
+            "author": {
+              "name": "Maikon Costa",
+              "email": "maikonfcosta@gmail.com",
+              "time": 1790611169000
+            },
+            "committer": {
+              "name": "Maikon Costa",
+              "email": "maikonfcosta@gmail.com",
+              "time": 1790611169000
+            },
+            "branch": "eval/10-expect-timeout-too-low"
+          },
+          "actualWorkers": 2
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "/home/runner/work/playwright-reference-suite/playwright-reference-suite/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/home/runner/work/playwright-reference-suite/playwright-reference-suite/test-results",
+        "repeatEach": 1,
+        "retries": 1,
+        "metadata": {
+          "ci": {
+            "commitHref": "https://github.com/maikonfcosta/playwright-reference-suite/commit/bd3e6747c6f1ac394b94bcc6d4c1bd72e063e337",
+            "commitHash": "bd3e6747c6f1ac394b94bcc6d4c1bd72e063e337",
+            "buildHref": "https://github.com/maikonfcosta/playwright-reference-suite/actions/runs/36447708387"
+          },
+          "gitCommit": {
+            "shortHash": "bd3e674",
+            "hash": "bd3e6747c6f1ac394b94bcc6d4c1bd72e063e337",
+            "subject": "eval: expect-timeout-too-low",
+            "body": "eval: expect-timeout-too-low\n",
+            "author": {
+              "name": "Maikon Costa",
+              "email": "maikonfcosta@gmail.com",
+              "time": 1790611169000
+            },
+            "committer": {
+              "name": "Maikon Costa",
+              "email": "maikonfcosta@gmail.com",
+              "time": 1790611169000
+            },
+            "branch": "eval/10-expect-timeout-too-low"
+          },
+          "actualWorkers": 2
+        },
+        "id": "firefox",
+        "name": "firefox",
+        "testDir": "/home/runner/work/playwright-reference-suite/playwright-reference-suite/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/home/runner/work/playwright-reference-suite/playwright-reference-suite/test-results",
+        "repeatEach": 1,
+        "retries": 1,
+        "metadata": {
+          "ci": {
+            "commitHref": "https://github.com/maikonfcosta/playwright-reference-suite/commit/bd3e6747c6f1ac394b94bcc6d4c1bd72e063e337",
+            "commitHash": "bd3e6747c6f1ac394b94bcc6d4c1bd72e063e337",
+            "buildHref": "https://github.com/maikonfcosta/playwright-reference-suite/actions/runs/36447708387"
+          },
+          "gitCommit": {
+            "shortHash": "bd3e674",
+            "hash": "bd3e6747c6f1ac394b94bcc6d4c1bd72e063e337",
+            "subject": "eval: expect-timeout-too-low",
+            "body": "eval: expect-timeout-too-low\n",
+            "author": {
+              "name": "Maikon Costa",
+              "email": "maikonfcosta@gmail.com",
+              "time": 1790611169000
+            },
+            "committer": {
+              "name": "Maikon Costa",
+              "email": "maikonfcosta@gmail.com",
+              "time": 1790611169000
+            },
+            "branch": "eval/10-expect-timeout-too-low"
+          },
+          "actualWorkers": 2
+        },
+        "id": "webkit",
+        "name": "webkit",
+        "testDir": "/home/runner/work/playwright-reference-suite/playwright-reference-suite/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "github",
+        null
+      ],
+      [
+        "html",
+        {
+          "open": "never"
+        }
+      ],
+      [
+        "json",
+        {
+          "outputFile": "test-results/results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.63.0",
+    "workers": 2,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "auth.setup.ts",
+      "file": "auth.setup.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "create session for e2e user",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "setup",
+              "projectName": "setup",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 170,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-28T16:00:34.738Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "17e3fe6f4d9d8bd79c6b-62fe618903ee5b6dd248",
+          "file": "auth.setup.ts",
+          "line": 10,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "api/auth.spec.ts",
+      "file": "api/auth.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "auth contract",
+          "file": "api/auth.spec.ts",
+          "line": 4,
+          "column": 6,
+          "specs": [
+            {
+              "title": "write endpoints reject requests without a token",
+              "ok": true,
+              "tags": [
+                "critical"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "api",
+                  "projectName": "api",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 339,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-09-28T16:00:35.397Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "d748ac400d08b85935ef-31a7cf49a5d3b94cbb41",
+              "file": "api/auth.spec.ts",
+              "line": 5,
+              "column": 3
+            },
+            {
+              "title": "an invalid token is rejected with a readable error",
+              "ok": true,
+              "tags": [
+                "critical"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "api",
+                  "projectName": "api",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 225,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-09-28T16:00:35.417Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "d748ac400d08b85935ef-7ca48924842a9a7f98fe",
+              "file": "api/auth.spec.ts",
+              "line": 18,
+              "column": 3
+            },
+            {
+              "title": "sign up validates required fields",
+              "ok": true,
+              "tags": [
+                "critical"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "api",
+                  "projectName": "api",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 137,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-09-28T16:00:35.940Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "d748ac400d08b85935ef-fa6e3a03bfef6bc629a2",
+              "file": "api/auth.spec.ts",
+              "line": 25,
+              "column": 3
+            },
+            {
+              "title": "sign up rejects an email or username already in use",
+              "ok": true,
+              "tags": [
+                "critical"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "api",
+                  "projectName": "api",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 326,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-09-28T16:00:36.055Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "d748ac400d08b85935ef-445950513a08c453ca1d",
+              "file": "api/auth.spec.ts",
+              "line": 34,
+              "column": 3
+            },
+            {
+              "title": "wrong password does not reveal whether the email exists",
+              "ok": true,
+              "tags": [
+                "critical"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "api",
+                  "projectName": "api",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 292,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-09-28T16:00:36.099Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "d748ac400d08b85935ef-d375cf08c31b32d8d27a",
+              "file": "api/auth.spec.ts",
+              "line": 44,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "api/health.spec.ts",
+      "file": "api/health.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "API answers through the web proxy",
+          "ok": true,
+          "tags": [
+            "critical"
+          ],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "api",
+              "projectName": "api",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 23,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-28T16:00:36.409Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "760d72a3746ac5132f88-dd86fea7cc4ef9d55305",
+          "file": "api/health.spec.ts",
+          "line": 3,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "api/ownership.spec.ts",
+      "file": "api/ownership.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "ownership",
+          "file": "api/ownership.spec.ts",
+          "line": 5,
+          "column": 6,
+          "specs": [
+            {
+              "title": "another user cannot edit my article",
+              "ok": true,
+              "tags": [
+                "critical"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "api",
+                  "projectName": "api",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 371,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-09-28T16:00:36.412Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "d4d6a40ebc7c4dfca9d2-5134320153a8dc40fca0",
+              "file": "api/ownership.spec.ts",
+              "line": 6,
+              "column": 3
+            },
+            {
+              "title": "another user cannot delete my article",
+              "ok": true,
+              "tags": [
+                "critical"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "api",
+                  "projectName": "api",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 346,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-09-28T16:00:36.448Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "d4d6a40ebc7c4dfca9d2-e3524c77af60365e1b21",
+              "file": "api/ownership.spec.ts",
+              "line": 16,
+              "column": 3
+            },
+            {
+              "title": "another user cannot delete my comment",
+              "ok": true,
+              "tags": [
+                "critical"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "api",
+                  "projectName": "api",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 244,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-09-28T16:00:36.799Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "d4d6a40ebc7c4dfca9d2-a79ca61951f7d8690397",
+              "file": "api/ownership.spec.ts",
+              "line": 25,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "e2e/auth.spec.ts",
+      "file": "e2e/auth.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "sign up and sign in",
+          "file": "e2e/auth.spec.ts",
+          "line": 7,
+          "column": 6,
+          "specs": [
+            {
+              "title": "new visitor signs up and lands on the home page signed in",
+              "ok": false,
+              "tags": [
+                "critical"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 1111,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mpage\u001b[39m\u001b[2m).\u001b[22mtoHaveURL\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nExpected: \u001b[32m\"http://localhost:4200/\"\u001b[39m\nReceived: \u001b[31m\"http://localhost:4200/\u001b[7mregister\u001b[27m\"\u001b[39m\nTimeout:  1ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveURL\" with timeout 1ms\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mpage\u001b[39m\u001b[2m).\u001b[22mtoHaveURL\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nExpected: \u001b[32m\"http://localhost:4200/\"\u001b[39m\nReceived: \u001b[31m\"http://localhost:4200/\u001b[7mregister\u001b[27m\"\u001b[39m\nTimeout:  1ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveURL\" with timeout 1ms\u001b[22m\n\n    at /home/runner/work/playwright-reference-suite/playwright-reference-suite/tests/e2e/auth.spec.ts:13:24",
+                        "location": {
+                          "file": "/home/runner/work/playwright-reference-suite/playwright-reference-suite/tests/e2e/auth.spec.ts",
+                          "column": 24,
+                          "line": 13
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 11 |\u001b[39m     \u001b[36mawait\u001b[39m authPage\u001b[33m.\u001b[39msignUp(user)\u001b[33m;\u001b[39m\n \u001b[90m 12 |\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 13 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page)\u001b[33m.\u001b[39mtoHaveURL(\u001b[32m'/'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                        \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 14 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'app-layout-header'\u001b[39m)\u001b[33m.\u001b[39mgetByRole(\u001b[32m'link'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m user\u001b[33m.\u001b[39musername }))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m 15 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 16 |\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/runner/work/playwright-reference-suite/playwright-reference-suite/tests/e2e/auth.spec.ts",
+                            "column": 24,
+                            "line": 13
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mpage\u001b[39m\u001b[2m).\u001b[22mtoHaveURL\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nExpected: \u001b[32m\"http://localhost:4200/\"\u001b[39m\nReceived: \u001b[31m\"http://localhost:4200/\u001b[7mregister\u001b[27m\"\u001b[39m\nTimeout:  1ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveURL\" with timeout 1ms\u001b[22m\n\n\n  11 |     await authPage.signUp(user);\n  12 |\n> 13 |     await expect(page).toHaveURL('/');\n     |                        ^\n  14 |     await expect(page.locator('app-layout-header').getByRole('link', { name: user.username })).toBeVisible();\n  15 |   });\n  16 |\n    at /home/runner/work/playwright-reference-suite/playwright-reference-suite/tests/e2e/auth.spec.ts:13:24"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-09-28T16:00:37.338Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/home/runner/work/playwright-reference-suite/playwright-reference-suite/test-results/auth-sign-up-and-sign-in-n-99a2a--on-the-home-page-signed-in-chromium/test-failed-1.png"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/runner/work/playwright-reference-suite/playwright-reference-suite/test-results/auth-sign-up-and-sign-in-n-99a2a--on-the-home-page-signed-in-chromium/error-context.md"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/home/runner/work/playwright-reference-suite/playwright-reference-suite/test-results/auth-sign-up-and-sign-in-n-99a2a--on-the-home-page-signed-in-chromium/trace.zip"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/runner/work/playwright-reference-suite/playwright-reference-suite/tests/e2e/auth.spec.ts",
+                        "column": 24,
+                        "line": 13
+                      }
+                    },
+                    {
+                      "workerIndex": 5,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 1029,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mpage\u001b[39m\u001b[2m).\u001b[22mtoHaveURL\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nExpected: \u001b[32m\"http://localhost:4200/\"\u001b[39m\nReceived: \u001b[31m\"http://localhost:4200/\u001b[7mregister\u001b[27m\"\u001b[39m\nTimeout:  1ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveURL\" with timeout 1ms\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mpage\u001b[39m\u001b[2m).\u001b[22mtoHaveURL\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nExpected: \u001b[32m\"http://localhost:4200/\"\u001b[39m\nReceived: \u001b[31m\"http://localhost:4200/\u001b[7mregister\u001b[27m\"\u001b[39m\nTimeout:  1ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveURL\" with timeout 1ms\u001b[22m\n\n    at /home/runner/work/playwright-reference-suite/playwright-reference-suite/tests/e2e/auth.spec.ts:13:24",
+                        "location": {
+                          "file": "/home/runner/work/playwright-reference-suite/playwright-reference-suite/tests/e2e/auth.spec.ts",
+                          "column": 24,
+                          "line": 13
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 11 |\u001b[39m     \u001b[36mawait\u001b[39m authPage\u001b[33m.\u001b[39msignUp(user)\u001b[33m;\u001b[39m\n \u001b[90m 12 |\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 13 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page)\u001b[33m.\u001b[39mtoHaveURL(\u001b[32m'/'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                        \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 14 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'app-layout-header'\u001b[39m)\u001b[33m.\u001b[39mgetByRole(\u001b[32m'link'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m user\u001b[33m.\u001b[39musername }))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m 15 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 16 |\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/runner/work/playwright-reference-suite/playwright-reference-suite/tests/e2e/auth.spec.ts",
+                            "column": 24,
+                            "line": 13
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mpage\u001b[39m\u001b[2m).\u001b[22mtoHaveURL\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nExpected: \u001b[32m\"http://localhost:4200/\"\u001b[39m\nReceived: \u001b[31m\"http://localhost:4200/\u001b[7mregister\u001b[27m\"\u001b[39m\nTimeout:  1ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveURL\" with timeout 1ms\u001b[22m\n\n\n  11 |     await authPage.signUp(user);\n  12 |\n> 13 |     await expect(page).toHaveURL('/');\n     |                        ^\n  14 |     await expect(page.locator('app-layout-header').getByRole('link', { name: user.username })).toBeVisible();\n  15 |   });\n  16 |\n    at /home/runner/work/playwright-reference-suite/playwright-reference-suite/tests/e2e/auth.spec.ts:13:24"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 1,
+                      "startTime": "2026-09-28T16:00:39.383Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/home/runner/work/playwright-reference-suite/playwright-reference-suite/test-results/auth-sign-up-and-sign-in-n-99a2a--on-the-home-page-signed-in-chromium-retry1/test-failed-1.png"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/runner/work/playwright-reference-suite/playwright-reference-suite/test-results/auth-sign-up-and-sign-in-n-99a2a--on-the-home-page-signed-in-chromium-retry1/error-context.md"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/home/runner/work/playwright-reference-suite/playwright-reference-suite/test-results/auth-sign-up-and-sign-in-n-99a2a--on-the-home-page-signed-in-chromium-retry1/trace.zip"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/runner/work/playwright-reference-suite/playwright-reference-suite/tests/e2e/auth.spec.ts",
+                        "column": 24,
+                        "line": 13
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "d748ac400d08b85935ef-eb7ef8c00b3da8a57bc5",
+              "file": "e2e/auth.spec.ts",
+              "line": 8,
+              "column": 3
+            },
+            {
+              "title": "existing user signs in",
+              "ok": false,
+              "tags": [
+                "critical"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 1,
+                      "status": "failed",
+                      "duration": 1218,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('app-layout-header').getByRole('link', { name: 'signin_a051d352' })\nExpected: visible\nTimeout: 1ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" locator('app-layout-header').getByRole('link', { name: 'signin_a051d352' }) with timeout 1ms\u001b[22m\n\u001b[2m  - waiting for locator('app-layout-header').getByRole('link', { name: 'signin_a051d352' })\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('app-layout-header').getByRole('link', { name: 'signin_a051d352' })\nExpected: visible\nTimeout: 1ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" locator('app-layout-header').getByRole('link', { name: 'signin_a051d352' }) with timeout 1ms\u001b[22m\n\u001b[2m  - waiting for locator('app-layout-header').getByRole('link', { name: 'signin_a051d352' })\u001b[22m\n\n    at /home/runner/work/playwright-reference-suite/playwright-reference-suite/tests/e2e/auth.spec.ts:23:103",
+                        "location": {
+                          "file": "/home/runner/work/playwright-reference-suite/playwright-reference-suite/tests/e2e/auth.spec.ts",
+                          "column": 103,
+                          "line": 23
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 21 |\u001b[39m     \u001b[36mawait\u001b[39m authPage\u001b[33m.\u001b[39msignIn(credentials\u001b[33m.\u001b[39memail\u001b[33m,\u001b[39m credentials\u001b[33m.\u001b[39mpassword)\u001b[33m;\u001b[39m\n \u001b[90m 22 |\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 23 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'app-layout-header'\u001b[39m)\u001b[33m.\u001b[39mgetByRole(\u001b[32m'link'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m credentials\u001b[33m.\u001b[39musername }))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                                                                       \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 24 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 25 |\u001b[39m\n \u001b[90m 26 |\u001b[39m   test(\u001b[32m'wrong password keeps the user on the sign in page with an error'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page\u001b[33m,\u001b[39m authPage\u001b[33m,\u001b[39m me }) \u001b[33m=>\u001b[39m {\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/runner/work/playwright-reference-suite/playwright-reference-suite/tests/e2e/auth.spec.ts",
+                            "column": 103,
+                            "line": 23
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('app-layout-header').getByRole('link', { name: 'signin_a051d352' })\nExpected: visible\nTimeout: 1ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" locator('app-layout-header').getByRole('link', { name: 'signin_a051d352' }) with timeout 1ms\u001b[22m\n\u001b[2m  - waiting for locator('app-layout-header').getByRole('link', { name: 'signin_a051d352' })\u001b[22m\n\n\n  21 |     await authPage.signIn(credentials.email, credentials.password);\n  22 |\n> 23 |     await expect(page.locator('app-layout-header').getByRole('link', { name: credentials.username })).toBeVisible();\n     |                                                                                                       ^\n  24 |   });\n  25 |\n  26 |   test('wrong password keeps the user on the sign in page with an error', async ({ page, authPage, me }) => {\n    at /home/runner/work/playwright-reference-suite/playwright-reference-suite/tests/e2e/auth.spec.ts:23:103"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-09-28T16:00:37.659Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/home/runner/work/playwright-reference-suite/playwright-reference-suite/test-results/auth-sign-up-and-sign-in-existing-user-signs-in-chromium/test-failed-1.png"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/runner/work/playwright-reference-suite/playwright-reference-suite/test-results/auth-sign-up-and-sign-in-existing-user-signs-in-chromium/error-context.md"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/home/runner/work/playwright-reference-suite/playwright-reference-suite/test-results/auth-sign-up-and-sign-in-existing-user-signs-in-chromium/trace.zip"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/runner/work/playwright-reference-suite/playwright-reference-suite/tests/e2e/auth.spec.ts",
+                        "column": 103,
+                        "line": 23
+                      }
+                    },
+                    {
+                      "workerIndex": 6,
+                      "parallelIndex": 1,
+                      "status": "failed",
+                      "duration": 1107,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('app-layout-header').getByRole('link', { name: 'signin_9c1634fa' })\nExpected: visible\nTimeout: 1ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" locator('app-layout-header').getByRole('link', { name: 'signin_9c1634fa' }) with timeout 1ms\u001b[22m\n\u001b[2m  - waiting for locator('app-layout-header').getByRole('link', { name: 'signin_9c1634fa' })\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('app-layout-header').getByRole('link', { name: 'signin_9c1634fa' })\nExpected: visible\nTimeout: 1ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" locator('app-layout-header').getByRole('link', { name: 'signin_9c1634fa' }) with timeout 1ms\u001b[22m\n\u001b[2m  - waiting for locator('app-layout-header').getByRole('link', { name: 'signin_9c1634fa' })\u001b[22m\n\n    at /home/runner/work/playwright-reference-suite/playwright-reference-suite/tests/e2e/auth.spec.ts:23:103",
+                        "location": {
+                          "file": "/home/runner/work/playwright-reference-suite/playwright-reference-suite/tests/e2e/auth.spec.ts",
+                          "column": 103,
+                          "line": 23
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 21 |\u001b[39m     \u001b[36mawait\u001b[39m authPage\u001b[33m.\u001b[39msignIn(credentials\u001b[33m.\u001b[39memail\u001b[33m,\u001b[39m credentials\u001b[33m.\u001b[39mpassword)\u001b[33m;\u001b[39m\n \u001b[90m 22 |\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 23 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'app-layout-header'\u001b[39m)\u001b[33m.\u001b[39mgetByRole(\u001b[32m'link'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m credentials\u001b[33m.\u001b[39musername }))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                                                                       \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 24 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 25 |\u001b[39m\n \u001b[90m 26 |\u001b[39m   test(\u001b[32m'wrong password keeps the user on the sign in page with an error'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page\u001b[33m,\u001b[39m authPage\u001b[33m,\u001b[39m me }) \u001b[33m=>\u001b[39m {\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/runner/work/playwright-reference-suite/playwright-reference-suite/tests/e2e/auth.spec.ts",
+                            "column": 103,
+                            "line": 23
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('app-layout-header').getByRole('link', { name: 'signin_9c1634fa' })\nExpected: visible\nTimeout: 1ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" locator('app-layout-header').getByRole('link', { name: 'signin_9c1634fa' }) with timeout 1ms\u001b[22m\n\u001b[2m  - waiting for locator('app-layout-header').getByRole('link', { name: 'signin_9c1634fa' })\u001b[22m\n\n\n  21 |     await authPage.signIn(credentials.email, credentials.password);\n  22 |\n> 23 |     await expect(page.locator('app-layout-header').getByRole('link', { name: credentials.username })).toBeVisible();\n     |                                                                                                       ^\n  24 |   });\n  25 |\n  26 |   test('wrong password keeps the user on the sign in page with an error', async ({ page, authPage, me }) => {\n    at /home/runner/work/playwright-reference-suite/playwright-reference-suite/tests/e2e/auth.spec.ts:23:103"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 1,
+                      "startTime": "2026-09-28T16:00:39.723Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/home/runner/work/playwright-reference-suite/playwright-reference-suite/test-results/auth-sign-up-and-sign-in-existing-user-signs-in-chromium-retry1/test-failed-1.png"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/runner/work/playwright-reference-suite/playwright-reference-suite/test-results/auth-sign-up-and-sign-in-existing-user-signs-in-chromium-retry1/error-context.md"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/home/runner/work/playwright-reference-suite/playwright-reference-suite/test-results/auth-sign-up-and-sign-in-existing-user-signs-in-chromium-retry1/trace.zip"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/runner/work/playwright-reference-suite/playwright-reference-suite/tests/e2e/auth.spec.ts",
+                        "column": 103,
+                        "line": 23
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "d748ac400d08b85935ef-3494549af76ca0432188",
+              "file": "e2e/auth.spec.ts",
+              "line": 17,
+              "column": 3
+            },
+            {
+              "title": "wrong password keeps the user on the sign in page with an error",
+              "ok": false,
+              "tags": [
+                "critical"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 7,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 917,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.error-messages')\nExpected substring: \u001b[32m\"credentials invalid\"\u001b[39m\nReceived string:    \u001b[31m\"\"\u001b[39m\nTimeout: 1ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" locator('.error-messages') with timeout 1ms\u001b[22m\n\u001b[2m  - waiting for locator('.error-messages')\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.error-messages')\nExpected substring: \u001b[32m\"credentials invalid\"\u001b[39m\nReceived string:    \u001b[31m\"\"\u001b[39m\nTimeout: 1ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" locator('.error-messages') with timeout 1ms\u001b[22m\n\u001b[2m  - waiting for locator('.error-messages')\u001b[22m\n\n    at /home/runner/work/playwright-reference-suite/playwright-reference-suite/tests/e2e/auth.spec.ts:29:35",
+                        "location": {
+                          "file": "/home/runner/work/playwright-reference-suite/playwright-reference-suite/tests/e2e/auth.spec.ts",
+                          "column": 35,
+                          "line": 29
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 27 |\u001b[39m     \u001b[36mawait\u001b[39m authPage\u001b[33m.\u001b[39msignIn(me\u001b[33m.\u001b[39memail\u001b[33m,\u001b[39m \u001b[32m'wrong-password'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 28 |\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 29 |\u001b[39m     \u001b[36mawait\u001b[39m expect(authPage\u001b[33m.\u001b[39merrors)\u001b[33m.\u001b[39mtoContainText(\u001b[32m'credentials invalid'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                   \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 30 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page)\u001b[33m.\u001b[39mtoHaveURL(\u001b[32m'/login'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 31 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 32 |\u001b[39m })\u001b[33m;\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/runner/work/playwright-reference-suite/playwright-reference-suite/tests/e2e/auth.spec.ts",
+                            "column": 35,
+                            "line": 29
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.error-messages')\nExpected substring: \u001b[32m\"credentials invalid\"\u001b[39m\nReceived string:    \u001b[31m\"\"\u001b[39m\nTimeout: 1ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" locator('.error-messages') with timeout 1ms\u001b[22m\n\u001b[2m  - waiting for locator('.error-messages')\u001b[22m\n\n\n  27 |     await authPage.signIn(me.email, 'wrong-password');\n  28 |\n> 29 |     await expect(authPage.errors).toContainText('credentials invalid');\n     |                                   ^\n  30 |     await expect(page).toHaveURL('/login');\n  31 |   });\n  32 | });\n    at /home/runner/work/playwright-reference-suite/playwright-reference-suite/tests/e2e/auth.spec.ts:29:35"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-09-28T16:00:41.253Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/home/runner/work/playwright-reference-suite/playwright-reference-suite/test-results/auth-sign-up-and-sign-in-w-74782--sign-in-page-with-an-error-chromium/test-failed-1.png"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/runner/work/playwright-reference-suite/playwright-reference-suite/test-results/auth-sign-up-and-sign-in-w-74782--sign-in-page-with-an-error-chromium/error-context.md"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/home/runner/work/playwright-reference-suite/playwright-reference-suite/test-results/auth-sign-up-and-sign-in-w-74782--sign-in-page-with-an-error-chromium/trace.zip"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/runner/work/playwright-reference-suite/playwright-reference-suite/tests/e2e/auth.spec.ts",
+                        "column": 35,
+                        "line": 29
+                      }
+                    },
+                    {
+                      "workerIndex": 9,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 987,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.error-messages')\nExpected substring: \u001b[32m\"credentials invalid\"\u001b[39m\nReceived string:    \u001b[31m\"\"\u001b[39m\nTimeout: 1ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" locator('.error-messages') with timeout 1ms\u001b[22m\n\u001b[2m  - waiting for locator('.error-messages')\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.error-messages')\nExpected substring: \u001b[32m\"credentials invalid\"\u001b[39m\nReceived string:    \u001b[31m\"\"\u001b[39m\nTimeout: 1ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" locator('.error-messages') with timeout 1ms\u001b[22m\n\u001b[2m  - waiting for locator('.error-messages')\u001b[22m\n\n    at /home/runner/work/playwright-reference-suite/playwright-reference-suite/tests/e2e/auth.spec.ts:29:35",
+                        "location": {
+                          "file": "/home/runner/work/playwright-reference-suite/playwright-reference-suite/tests/e2e/auth.spec.ts",
+                          "column": 35,
+                          "line": 29
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 27 |\u001b[39m     \u001b[36mawait\u001b[39m authPage\u001b[33m.\u001b[39msignIn(me\u001b[33m.\u001b[39memail\u001b[33m,\u001b[39m \u001b[32m'wrong-password'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 28 |\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 29 |\u001b[39m     \u001b[36mawait\u001b[39m expect(authPage\u001b[33m.\u001b[39merrors)\u001b[33m.\u001b[39mtoContainText(\u001b[32m'credentials invalid'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                   \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 30 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page)\u001b[33m.\u001b[39mtoHaveURL(\u001b[32m'/login'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 31 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 32 |\u001b[39m })\u001b[33m;\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/runner/work/playwright-reference-suite/playwright-reference-suite/tests/e2e/auth.spec.ts",
+                            "column": 35,
+                            "line": 29
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.error-messages')\nExpected substring: \u001b[32m\"credentials invalid\"\u001b[39m\nReceived string:    \u001b[31m\"\"\u001b[39m\nTimeout: 1ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" locator('.error-messages') with timeout 1ms\u001b[22m\n\u001b[2m  - waiting for locator('.error-messages')\u001b[22m\n\n\n  27 |     await authPage.signIn(me.email, 'wrong-password');\n  28 |\n> 29 |     await expect(authPage.errors).toContainText('credentials invalid');\n     |                                   ^\n  30 |     await expect(page).toHaveURL('/login');\n  31 |   });\n  32 | });\n    at /home/runner/work/playwright-reference-suite/playwright-reference-suite/tests/e2e/auth.spec.ts:29:35"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 1,
+                      "startTime": "2026-09-28T16:00:43.043Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/home/runner/work/playwright-reference-suite/playwright-reference-suite/test-results/auth-sign-up-and-sign-in-w-74782--sign-in-page-with-an-error-chromium-retry1/test-failed-1.png"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/runner/work/playwright-reference-suite/playwright-reference-suite/test-results/auth-sign-up-and-sign-in-w-74782--sign-in-page-with-an-error-chromium-retry1/error-context.md"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/home/runner/work/playwright-reference-suite/playwright-reference-suite/test-results/auth-sign-up-and-sign-in-w-74782--sign-in-page-with-an-error-chromium-retry1/trace.zip"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/runner/work/playwright-reference-suite/playwright-reference-suite/tests/e2e/auth.spec.ts",
+                        "column": 35,
+                        "line": 29
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "d748ac400d08b85935ef-cbbcb0b6318b83dea404",
+              "file": "e2e/auth.spec.ts",
+              "line": 26,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "e2e/comment.spec.ts",
+      "file": "e2e/comment.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "reader comments on an article and the comment survives a reload",
+          "ok": true,
+          "tags": [
+            "critical"
+          ],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 8,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 1268,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-28T16:00:41.659Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "24a9704ceb90082c6795-c9142322a25f0e47f86d",
+          "file": "e2e/comment.spec.ts",
+          "line": 4,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "e2e/home.spec.ts",
+      "file": "e2e/home.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "home page loads the global feed from our API",
+          "ok": true,
+          "tags": [
+            "critical"
+          ],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 8,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 801,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-28T16:00:43.122Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "d318381359a9b96acb1e-03e2fb844bc78f67f366",
+          "file": "e2e/home.spec.ts",
+          "line": 3,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "e2e/publish-article.spec.ts",
+      "file": "e2e/publish-article.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "author publishes an article and sees it rendered",
+          "ok": true,
+          "tags": [
+            "critical"
+          ],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 8,
+                  "parallelIndex": 1,
+                  "status": "failed",
+                  "duration": 1096,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('heading', { level: 1 })\nExpected: \u001b[32m\"Release checklist a2a0d101\"\u001b[39m\nTimeout: 1ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toHaveText\" getByRole('heading', { level: 1 }) with timeout 1ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { level: 1 })\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('heading', { level: 1 })\nExpected: \u001b[32m\"Release checklist a2a0d101\"\u001b[39m\nTimeout: 1ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toHaveText\" getByRole('heading', { level: 1 }) with timeout 1ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { level: 1 })\u001b[22m\n\n    at /home/runner/work/playwright-reference-suite/playwright-reference-suite/tests/e2e/publish-article.spec.ts:14:37",
+                    "location": {
+                      "file": "/home/runner/work/playwright-reference-suite/playwright-reference-suite/tests/e2e/publish-article.spec.ts",
+                      "column": 37,
+                      "line": 14
+                    },
+                    "snippet": "\u001b[0m \u001b[90m 12 |\u001b[39m   \u001b[36mconst\u001b[39m { article } \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m saved\u001b[33m.\u001b[39mjson()\u001b[33m;\u001b[39m\n \u001b[90m 13 |\u001b[39m   \u001b[36mawait\u001b[39m expect(page)\u001b[33m.\u001b[39mtoHaveURL(\u001b[32m`/article/${article.slug}`\u001b[39m)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 14 |\u001b[39m   \u001b[36mawait\u001b[39m expect(articlePage\u001b[33m.\u001b[39mheading)\u001b[33m.\u001b[39mtoHaveText(draft\u001b[33m.\u001b[39mtitle)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                     \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 15 |\u001b[39m   \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'.article-content strong'\u001b[39m))\u001b[33m.\u001b[39mtoHaveText(\u001b[32m'bold'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 16 |\u001b[39m   \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'.article-content .tag-list li'\u001b[39m))\u001b[33m.\u001b[39mtoHaveText([\u001b[32m'release'\u001b[39m\u001b[33m,\u001b[39m \u001b[32m'checklist'\u001b[39m])\u001b[33m;\u001b[39m\n \u001b[90m 17 |\u001b[39m\u001b[0m"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/home/runner/work/playwright-reference-suite/playwright-reference-suite/tests/e2e/publish-article.spec.ts",
+                        "column": 37,
+                        "line": 14
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('heading', { level: 1 })\nExpected: \u001b[32m\"Release checklist a2a0d101\"\u001b[39m\nTimeout: 1ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toHaveText\" getByRole('heading', { level: 1 }) with timeout 1ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { level: 1 })\u001b[22m\n\n\n  12 |   const { article } = await saved.json();\n  13 |   await expect(page).toHaveURL(`/article/${article.slug}`);\n> 14 |   await expect(articlePage.heading).toHaveText(draft.title);\n     |                                     ^\n  15 |   await expect(page.locator('.article-content strong')).toHaveText('bold');\n  16 |   await expect(page.locator('.article-content .tag-list li')).toHaveText(['release', 'checklist']);\n  17 |\n    at /home/runner/work/playwright-reference-suite/playwright-reference-suite/tests/e2e/publish-article.spec.ts:14:37"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-28T16:00:43.950Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/home/runner/work/playwright-reference-suite/playwright-reference-suite/test-results/publish-article-author-pub-c17be-rticle-and-sees-it-rendered-chromium/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/home/runner/work/playwright-reference-suite/playwright-reference-suite/test-results/publish-article-author-pub-c17be-rticle-and-sees-it-rendered-chromium/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/home/runner/work/playwright-reference-suite/playwright-reference-suite/test-results/publish-article-author-pub-c17be-rticle-and-sees-it-rendered-chromium/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/home/runner/work/playwright-reference-suite/playwright-reference-suite/tests/e2e/publish-article.spec.ts",
+                    "column": 37,
+                    "line": 14
+                  }
+                },
+                {
+                  "workerIndex": 11,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 842,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 1,
+                  "startTime": "2026-09-28T16:00:45.798Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "flaky"
+            }
+          ],
+          "id": "da43aa82ea5ef248b4d4-f7be4efe43561f2caeb6",
+          "file": "e2e/publish-article.spec.ts",
+          "line": 4,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "e2e/session.spec.ts",
+      "file": "e2e/session.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "browser starts signed in with the session created by the API",
+          "ok": true,
+          "tags": [
+            "critical"
+          ],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 10,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 649,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-28T16:00:44.885Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6fa1842ca325e3ffbb00-d177fc34ba811f1dd2d8",
+          "file": "e2e/session.spec.ts",
+          "line": 3,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-09-28T16:00:34.100Z",
+    "duration": 12695.28,
+    "expected": 13,
+    "skipped": 0,
+    "unexpected": 3,
+    "flaky": 1
+  }
+}

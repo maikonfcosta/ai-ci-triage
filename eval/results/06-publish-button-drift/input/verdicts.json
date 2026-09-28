@@ -1,0 +1,12 @@
+[
+ {
+  "test": "author publishes an article and sees it rendered",
+  "project": "chromium",
+  "location": "e2e/publish-article.spec.ts:4",
+  "status": "unexpected",
+  "category": "unknown",
+  "confidence": "low",
+  "reason": "no rule matched",
+  "error": "Test timeout of 30000ms exceeded."
+ }
+]

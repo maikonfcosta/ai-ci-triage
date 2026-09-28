@@ -1,0 +1,12 @@
+[
+ {
+  "test": "reader comments on an article and the comment survives a reload",
+  "project": "chromium",
+  "location": "e2e/comment.spec.ts:4",
+  "status": "unexpected",
+  "category": "unknown",
+  "confidence": "low",
+  "reason": "no rule matched",
+  "error": "Test timeout of 30000ms exceeded."
+ }
+]

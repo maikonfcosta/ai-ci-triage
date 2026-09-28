@@ -1,0 +1,12 @@
+[
+ {
+  "test": "auth contract > wrong password does not reveal whether the email exists",
+  "project": "api",
+  "location": "api/auth.spec.ts:44",
+  "status": "unexpected",
+  "category": "product",
+  "confidence": "high",
+  "reason": "a business assertion failed on a healthy app",
+  "error": "Error: expect(received).toEqual(expected) // deep equality"
+ }
+]

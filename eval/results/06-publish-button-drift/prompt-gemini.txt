@@ -1,0 +1,132 @@
+<error test="author publishes an article and sees it rendered" project="chromium" location="e2e/publish-article.spec.ts:4" classifier="unknown, low: no rule matched">
+Test timeout of 30000ms exceeded.
+
+Error: page.waitForResponse: Test timeout of 30000ms exceeded.
+
+   at ../src/pages/editor.page.ts:33
+
+  31 |   /** Clicks publish and resolves with the article the API saved. */
+  32 |   async publish() {
+> 33 |     const saved = this.page.waitForResponse(
+     |                             ^
+  34 |       (res) =>
+  35 |         /\/api\/articles(\/[^/]+)?$/.test(new URL(res.url()).pathname) &&
+  36 |         ['POST', 'PUT'].includes(res.request().method()),
+    at EditorPage.publish (/home/runner/work/playwright-reference-suite/playwright-reference-suite/src/pages/editor.page.ts:33:29)
+    at /home/runner/work/playwright-reference-suite/playwright-reference-suite/tests/e2e/publish-article.spec.ts:9:34
+
+Error: locator.click: Test timeout of 30000ms exceeded.
+Call log:
+  - waiting for getByRole('button', { name: 'Publish', exact: true })
+
+
+   at ../src/pages/editor.page.ts:38
+
+  36 |         ['POST', 'PUT'].includes(res.request().method()),
+  37 |     );
+> 38 |     await this.page.getByRole('button', { name: 'Publish', exact: true }).click();
+     |                                                                           ^
+  39 |     return saved;
+  40 |   }
+  41 | }
+    at EditorPage.publish (/home/runner/work/playwright-reference-suite/playwright-reference-suite/src/pages/editor.page.ts:38:75)
+    at /home/runner/work/playwright-reference-suite/playwright-reference-suite/tests/e2e/publish-article.spec.ts:9:34
+</error>
+
+<source file="src/pages/editor.page.ts" around="33">
+    13 |     this.body = page.getByPlaceholder('Write your article (in markdown)');
+    14 |     this.tags = page.getByPlaceholder('Enter tags');
+    15 |   }
+    16 | 
+    17 |   async open(slug?: string) {
+    18 |     await this.page.goto(slug ? `/editor/${slug}` : '/editor');
+    19 |   }
+    20 | 
+    21 |   async fillForm(article: Partial<NewArticle>) {
+    22 |     if (article.title !== undefined) await this.title.fill(article.title);
+    23 |     if (article.description !== undefined) await this.description.fill(article.description);
+    24 |     if (article.body !== undefined) await this.body.fill(article.body);
+    25 |     for (const tag of article.tagList ?? []) {
+    26 |       await this.tags.fill(tag);
+    27 |       await this.tags.press('Enter');
+    28 |     }
+    29 |   }
+    30 | 
+    31 |   /** Clicks publish and resolves with the article the API saved. */
+    32 |   async publish() {
+>   33 |     const saved = this.page.waitForResponse(
+    34 |       (res) =>
+    35 |         /\/api\/articles(\/[^/]+)?$/.test(new URL(res.url()).pathname) &&
+    36 |         ['POST', 'PUT'].includes(res.request().method()),
+    37 |     );
+    38 |     await this.page.getByRole('button', { name: 'Publish', exact: true }).click();
+    39 |     return saved;
+    40 |   }
+    41 | }
+    42 | 
+</source>
+
+<source file="tests/e2e/publish-article.spec.ts" around="9">
+     1 | import { test, expect } from '../fixtures';
+     2 | import { newArticle } from '../../src/data/factory';
+     3 | 
+     4 | test('author publishes an article and sees it rendered', { tag: '@critical' }, async ({ page, editorPage, articlePage, myApi }) => {
+     5 |   const draft = newArticle({ body: 'First line with **bold** text.', tagList: ['release', 'checklist'] });
+     6 | 
+     7 |   await editorPage.open();
+     8 |   await editorPage.fillForm(draft);
+>    9 |   const saved = await editorPage.publish();
+    10 | 
+    11 |   expect(saved.status()).toBe(201);
+    12 |   const { article } = await saved.json();
+    13 |   await expect(page).toHaveURL(`/article/${article.slug}`);
+    14 |   await expect(articlePage.heading).toHaveText(draft.title);
+    15 |   await expect(page.locator('.article-content strong')).toHaveText('bold');
+    16 |   await expect(page.locator('.article-content .tag-list li')).toHaveText(['release', 'checklist']);
+    17 | 
+    18 |   // The UI can lie; the API is the source of truth for what was stored.
+    19 |   const stored = await (await myApi.getArticle(article.slug)).json();
+    20 |   expect(stored.article).toMatchObject({ title: draft.title, description: draft.description });
+    21 | });
+    22 | 
+</source>
+
+<source file="src/pages/editor.page.ts" around="38">
+    18 |     await this.page.goto(slug ? `/editor/${slug}` : '/editor');
+    19 |   }
+    20 | 
+    21 |   async fillForm(article: Partial<NewArticle>) {
+    22 |     if (article.title !== undefined) await this.title.fill(article.title);
+    23 |     if (article.description !== undefined) await this.description.fill(article.description);
+    24 |     if (article.body !== undefined) await this.body.fill(article.body);
+    25 |     for (const tag of article.tagList ?? []) {
+    26 |       await this.tags.fill(tag);
+    27 |       await this.tags.press('Enter');
+    28 |     }
+    29 |   }
+    30 | 
+    31 |   /** Clicks publish and resolves with the article the API saved. */
+    32 |   async publish() {
+    33 |     const saved = this.page.waitForResponse(
+    34 |       (res) =>
+    35 |         /\/api\/articles(\/[^/]+)?$/.test(new URL(res.url()).pathname) &&
+    36 |         ['POST', 'PUT'].includes(res.request().method()),
+    37 |     );
+>   38 |     await this.page.getByRole('button', { name: 'Publish', exact: true }).click();
+    39 |     return saved;
+    40 |   }
+    41 | }
+    42 | 
+</source>
+
+<diff file="src/pages/editor.page.ts">
+@@ -35,7 +35,7 @@ export class EditorPage {
+         /\/api\/articles(\/[^/]+)?$/.test(new URL(res.url()).pathname) &&
+         ['POST', 'PUT'].includes(res.request().method()),
+     );
+-    await this.page.getByRole('button', { name: 'Publish Article' }).click();
++    await this.page.getByRole('button', { name: 'Publish', exact: true }).click();
+     return saved;
+   }
+ }
+</diff>

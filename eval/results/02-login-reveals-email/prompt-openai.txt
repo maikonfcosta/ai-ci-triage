@@ -1,0 +1,71 @@
+<error test="auth contract > wrong password does not reveal whether the email exists" project="api" location="api/auth.spec.ts:44" classifier="product, high: a business assertion failed on a healthy app">
+Error: expect(received).toEqual(expected) // deep equality
+
+- Expected  - 2
++ Received  + 2
+
+  Object {
+    "errors": Object {
+-     "email": Array [
+-       "not found",
++     "credentials": Array [
++       "invalid",
+      ],
+    },
+  }
+
+  47 |
+  48 |     expect(wrongPassword.status()).toBe(401);
+> 49 |     expect(await wrongPassword.json()).toEqual(await unknownEmail.json());
+     |                                        ^
+  50 |   });
+  51 | });
+  52 |
+    at /home/runner/work/playwright-reference-suite/playwright-reference-suite/tests/api/auth.spec.ts:49:40
+</error>
+
+<source file="tests/api/auth.spec.ts" around="49">
+    29 | 
+    30 |     expect(res.status()).toBe(422);
+    31 |     expect((await res.json()).errors).toHaveProperty('email');
+    32 |   });
+    33 | 
+    34 |   test('sign up rejects an email or username already in use', async ({ api, me }) => {
+    35 |     const res = await api.register({ username: me.username, email: me.email, password: 'whatever-123' });
+    36 | 
+    37 |     expect(res.status()).toBe(409);
+    38 |     expect((await res.json()).errors).toMatchObject({
+    39 |       email: ['has already been taken'],
+    40 |       username: ['has already been taken'],
+    41 |     });
+    42 |   });
+    43 | 
+    44 |   test('wrong password does not reveal whether the email exists', async ({ api, me }) => {
+    45 |     const wrongPassword = await api.login(me.email, 'wrong-password');
+    46 |     const unknownEmail = await api.login('nobody@test.local', 'wrong-password');
+    47 | 
+    48 |     expect(wrongPassword.status()).toBe(401);
+>   49 |     expect(await wrongPassword.json()).toEqual(await unknownEmail.json());
+    50 |   });
+    51 | });
+    52 | 
+</source>
+
+<diff file="docker/patches/api/02-login-reveals-email.patch">
+@@ -0,0 +1,15 @@
++diff --git a/server/routes/api/users/login.post.ts b/server/routes/api/users/login.post.ts
++index 3280a59..932174b 100644
++--- a/server/routes/api/users/login.post.ts
+++++ b/server/routes/api/users/login.post.ts
++@@ -22,6 +22,10 @@ export default defineEventHandler(async (event) => {
++         },
++     });
++ 
+++    if (!foundUser) {
+++        throw new HttpException(404, {errors: {email: ['not found']}});
+++    }
+++
++     if (foundUser) {
++         const match = await bcrypt.compare(password, foundUser.password);
++
+</diff>

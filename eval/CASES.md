@@ -15,6 +15,8 @@ A case scores a **file hit** when the diagnosis for the named test points at the
 | 07 | Outdated test | Email field placeholder becomes 'Email address' in the page object | sign up and sign in > existing user signs in | `src/pages/auth.page.ts` | Says the field locator no longer matches |
 | 08 | Test logic | The article factory spreads the overrides before the defaults, so every override is lost | author publishes an article and sees it rendered | `src/data/factory.ts` | Says the defaults overwrite the overrides (spread order) |
 | 09 | Test logic | Assertion compares the heading with the article body instead of the title | author publishes an article and sees it rendered | `tests/e2e/publish-article.spec.ts` | Says the assertion uses the wrong field |
-| 10 | CI/config | `expect: { timeout: 100 }` added to the Playwright config | several; scored on the first failure | `playwright.config.ts` | Points at the timeout change in the config, not at the product |
+| 10 | CI/config | `expect: { timeout: 1 }` added to the Playwright config | several; scored on the first failure | `playwright.config.ts` | Points at the timeout change in the config, not at the product |
 
 Case 10 replaces the "Environment/CI" row of the spec: a workflow change that takes the app down is an outage, and outages are skipped on purpose (failure-classifier already explains them). A config change that breaks tests on a healthy app is the CI case this tool can actually see.
+
+The first version of case 10 used `timeout: 100`. It broke nothing: one test failed once and passed on retry, and a flaky test is not sent to the model. It was changed to `timeout: 1` before any model call.

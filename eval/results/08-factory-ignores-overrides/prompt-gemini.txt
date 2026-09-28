@@ -1,0 +1,62 @@
+<error test="author publishes an article and sees it rendered" project="chromium" location="e2e/publish-article.spec.ts:4" classifier="product, low: the asserted element does not exist; the test may be outdated">
+Error: expect(locator).toHaveText(expected) failed
+
+Locator: locator('.article-content strong')
+Expected: "bold"
+Timeout: 5000ms
+Error: element(s) not found
+
+Call log:
+  - Expect "toHaveText" locator('.article-content strong') with timeout 5000ms
+  - waiting for locator('.article-content strong')
+
+
+  13 |   await expect(page).toHaveURL(`/article/${article.slug}`);
+  14 |   await expect(articlePage.heading).toHaveText(draft.title);
+> 15 |   await expect(page.locator('.article-content strong')).toHaveText('bold');
+     |                                                         ^
+  16 |   await expect(page.locator('.article-content .tag-list li')).toHaveText(['release', 'checklist']);
+  17 |
+  18 |   // The UI can lie; the API is the source of truth for what was stored.
+    at /home/runner/work/playwright-reference-suite/playwright-reference-suite/tests/e2e/publish-article.spec.ts:15:57
+</error>
+
+<source file="tests/e2e/publish-article.spec.ts" around="15">
+     1 | import { test, expect } from '../fixtures';
+     2 | import { newArticle } from '../../src/data/factory';
+     3 | 
+     4 | test('author publishes an article and sees it rendered', { tag: '@critical' }, async ({ page, editorPage, articlePage, myApi }) => {
+     5 |   const draft = newArticle({ body: 'First line with **bold** text.', tagList: ['release', 'checklist'] });
+     6 | 
+     7 |   await editorPage.open();
+     8 |   await editorPage.fillForm(draft);
+     9 |   const saved = await editorPage.publish();
+    10 | 
+    11 |   expect(saved.status()).toBe(201);
+    12 |   const { article } = await saved.json();
+    13 |   await expect(page).toHaveURL(`/article/${article.slug}`);
+    14 |   await expect(articlePage.heading).toHaveText(draft.title);
+>   15 |   await expect(page.locator('.article-content strong')).toHaveText('bold');
+    16 |   await expect(page.locator('.article-content .tag-list li')).toHaveText(['release', 'checklist']);
+    17 | 
+    18 |   // The UI can lie; the API is the source of truth for what was stored.
+    19 |   const stored = await (await myApi.getArticle(article.slug)).json();
+    20 |   expect(stored.article).toMatchObject({ title: draft.title, description: draft.description });
+    21 | });
+    22 | 
+</source>
+
+<diff file="src/data/factory.ts">
+@@ -14,10 +14,10 @@ export function newUser(prefix = 'qa'): NewUser {
+ export function newArticle(overrides: Partial<NewArticle> = {}): NewArticle {
+   const id = uid();
+   return {
++    ...overrides,
+     title: `Release checklist ${id}`,
+     description: 'What we verify before shipping',
+     body: 'Smoke the critical paths, check the error budget, then ship.',
+     tagList: ['qa'],
+-    ...overrides,
+   };
+ }
+</diff>
