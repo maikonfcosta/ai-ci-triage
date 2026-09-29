@@ -5,7 +5,7 @@ import { join } from 'node:path';
 import { Octokit } from '@octokit/rest';
 import { selectFailures } from './failures';
 import { pullDiff, pullFromEvent, upsertComment } from './github';
-import { GeminiProvider, OpenAIProvider } from './providers';
+import { GeminiProvider, GroqProvider, OpenAIProvider } from './providers';
 import { secretValues } from './redact';
 import { triage } from './triage';
 
@@ -20,6 +20,7 @@ async function main(): Promise<void> {
   const maxTokens = Number(input('max-input-tokens', '30000'));
   const openaiKey = input('openai-api-key');
   const geminiKey = input('gemini-api-key');
+  const groqKey = input('groq-api-key');
 
   const target = pullFromEvent(env.GITHUB_EVENT_NAME ?? '', JSON.parse(readFileSync(env.GITHUB_EVENT_PATH ?? '', 'utf8')));
   if ('skip' in target && !dryRun) {
@@ -35,8 +36,8 @@ async function main(): Promise<void> {
     repoRoot: env.GITHUB_WORKSPACE ?? process.cwd(),
     secrets: secretValues(env),
     maxTokens: Number.isFinite(maxTokens) && maxTokens > 0 ? maxTokens : 30000,
-    primary: openaiKey ? new OpenAIProvider(openaiKey, input('openai-model') || undefined) : undefined,
-    fallback: geminiKey ? new GeminiProvider(geminiKey, input('gemini-model') || undefined) : undefined,
+    primary: groqKey ? new GroqProvider(groqKey, input('groq-model') || undefined) : openaiKey ? new OpenAIProvider(openaiKey, input('openai-model') || undefined) : undefined,
+    fallback: groqKey && openaiKey ? new OpenAIProvider(openaiKey, input('openai-model') || undefined) : geminiKey ? new GeminiProvider(geminiKey, input('gemini-model') || undefined) : undefined,
     dryRun,
     publish: async (comment) => {
       if (!ref) throw new Error('no pull request to comment on');

@@ -1,6 +1,7 @@
 // Everything that goes to a model passes through here first. A leaked token in a prompt is a leaked token.
 
 const PATTERNS: [RegExp, string][] = [
+  [/\bgsk_[A-Za-z0-9_-]{20,}\b/g, '[api key]'],
   [/-----BEGIN [A-Z ]*PRIVATE KEY-----[\s\S]*?-----END [A-Z ]*PRIVATE KEY-----/g, '[private key]'],
   [/(authorization\s*[:=]\s*)(?:bearer|basic|token)?\s*[^\s"',]+/gi, '$1[redacted]'],
   [/\beyJ[\w-]{8,}\.[\w-]{8,}\.[\w-]{8,}/g, '[jwt]'],

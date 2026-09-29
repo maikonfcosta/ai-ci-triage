@@ -1,0 +1,39 @@
+name: AI CI triage
+description: Explain Playwright failures in one PR comment without changing the test gate.
+inputs:
+  report:
+    description: Path to the Playwright JSON report.
+    required: true
+  verdicts:
+    description: Path to failure-classifier JSON verdicts.
+    required: true
+  github-token:
+    description: Token with pull-requests write permission for the current repository.
+    default: ${{ github.token }}
+  groq-api-key:
+    description: Optional Groq key. When supplied, Groq is the primary provider.
+  groq-model:
+    description: Groq model supporting strict structured output.
+    default: openai/gpt-oss-120b
+  openai-api-key:
+    description: Optional OpenAI key. Primary without Groq, otherwise fallback.
+  openai-model:
+    description: OpenAI model supporting structured output.
+    default: gpt-6-sol
+  gemini-api-key:
+    description: Optional Gemini key. Used when no higher-priority fallback exists.
+  gemini-model:
+    description: Gemini model supporting structured output.
+    default: gemini-3.8-flash
+  max-input-tokens:
+    description: Input context budget. Groq counts are local estimates.
+    default: '30000'
+  dry-run:
+    description: Build the prompt without diagnosis or comment. Token counting may contact configured providers.
+    default: 'false'
+outputs:
+  result:
+    description: Path to the diagnosis JSON file, when a run produces one.
+runs:
+  using: node24
+  main: dist/index.mjs

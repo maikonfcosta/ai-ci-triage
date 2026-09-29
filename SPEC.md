@@ -32,6 +32,16 @@ Both providers answer through their structured output mode with the same JSON sc
 
 ## Providers, model and cost
 
+### Groq evaluation option (29/Sep/2026)
+
+- Added `groq`, default model `openai/gpt-oss-120b`, through the existing OpenAI SDK's Chat Completions client. It uses the same instructions and strict JSON schema. References: https://console.groq.com/docs/openai and https://console.groq.com/docs/structured-outputs.
+- Local evaluation: set `GROQ_API_KEY` in the git-ignored `.env`, then run `npm run eval -- ../playwright-reference-suite --run --only groq`. Omit `--run` to build prompts without a Groq inference call.
+- Answers are saved as `answer-groq.json`; the final report is `SCORES-groq.md` (dry run: `DRY-RUN-groq.md`). Existing Gemini answers and reports are preserved. Valid saved answers are reused. The final report is written only when the loop completes; an interruption still preserves each answer saved before it.
+- Input token counts before inference are local estimates including instructions and schema, not measured tokenizer counts. Actual usage comes from the API response. Cost is `null`/unknown because the response does not identify the billing tier; the tool does not mistake a public list price for an actual charge. Free-tier calls within the account's limits have no API charge.
+- Evaluation waits 65 seconds between Groq attempts and disables SDK retries. The shared harness handles retries. Limits still depend on account and prompt size: https://console.groq.com/docs/rate-limits.
+- The action entry point accepts `groq-api-key` and `groq-model`. When a Groq key is supplied, Groq is primary and OpenAI (or Gemini when no OpenAI key exists) is fallback. Without Groq, the previous selection is unchanged. Action packaging and workflow wiring remain part of F5.
+- Evaluate all ten cases separately for Groq; do not combine Gemini successes with Groq results into one accuracy figure.
+
 - Primary: OpenAI API. Fallback: Google Gemini API (the model family behind Antigravity). Provider and model are inputs. Defaults: `gpt-6-sol` ($2 / $10 per million input/output tokens) and `gemini-3.8-flash` ($0.75 / $3.75 until 31/Dec/2026, doubling on 1/Jan/2027), both from the providers' pricing pages on 28/Sep/2026.
 - Fallback runs only when the primary fails to answer: API error after retries, timeout, refusal, or a reply that does not match the schema. A valid but wrong answer does not trigger it. The comment names the provider and model that answered.
 - Each provider has its own key, stored as a separate secret. With only one key set, the tool runs with that one and no fallback.

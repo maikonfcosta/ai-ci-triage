@@ -75,6 +75,7 @@ function counter(log: (line: string) => void, ...providers: (Provider | undefine
     for (const p of providers) {
       if (!p) continue;
       try {
+        if (p.name === 'groq') log('groq: input token count is a local estimate, not a tokenizer measurement');
         return await p.countTokens(text);
       } catch (err) {
         log(`${p.name} could not count tokens: ${err instanceof Error ? err.message : String(err)}`);

@@ -1,0 +1,35 @@
+--- a/.github/workflows/ci.yml
++++ b/.github/workflows/ci.yml
+@@ -26,6 +26,9 @@
+       - run: npm run typecheck
+ 
+   critical:
++    permissions:
++      contents: read
++      pull-requests: write
+     runs-on: ubuntu-latest
+     timeout-minutes: 15
+     steps:
+@@ -52,6 +55,22 @@
+         with:
+           report: test-results/results.json
+           health-url: http://localhost:4200/api/tags
++
++      - name: Explain failures (advisory only)
++        id: triage
++        if: >-
++          ${{ !cancelled() && github.event_name == 'pull_request' &&
++              github.event.pull_request.head.repo.full_name == github.repository &&
++              steps.classify.outputs.verdicts != '' &&
++              hashFiles('test-results/results.json') != '' }}
++        continue-on-error: true
++        uses: maikonfcosta/ai-ci-triage@REPLACE_WITH_PUBLISHED_COMMIT_SHA
++        with:
++          report: test-results/results.json
++          verdicts: ${{ steps.classify.outputs.verdicts }}
++          github-token: ${{ github.token }}
++          groq-api-key: ${{ secrets.GROQ_API_KEY }}
++          max-input-tokens: '5500'
+ 
+       - name: Flaky report
+         if: ${{ !cancelled() }}

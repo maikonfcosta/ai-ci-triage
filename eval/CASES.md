@@ -4,6 +4,20 @@ Written before any run. Each case is one branch `eval/NN-slug` on playwright-ref
 Product bugs are patches to the Conduit source, applied in the Docker build, so the bug shows up in the diff.
 A case scores a **file hit** when the diagnosis for the named test points at the expected file, and a **cause hit** when its sentence matches the rubric.
 
+## Scoring revision (29/Sep/2026)
+
+The first Groq run exposed title and path representation mismatches. The original metric and `results/SCORES-groq.md` are retained. Subsequent evaluations report three separate file metrics:
+
+1. Original file hit: the original title lookup and exact expected path.
+2. Exact file after title matching: accept a shortened title only across a ` > ` group boundary and only when it identifies a unique input test and diagnosis. Duplicate exact diagnoses are not resolved by picking the first.
+3. Patch/source equivalent: additionally accept a source path from the embedded `+++ b/` header of the expected patch. No basename or arbitrary suffix matching of paths.
+
+These rules were revised after observing this run; improvements are post-hoc scoring changes, not improvements in model output. Cause correctness is reviewed separately. No claim is made about exact line accuracy.
+
+New inference runs write `SCORES-v2*.md` so the original `SCORES*.md` reports are not overwritten.
+
+Run `npm run eval:score -- groq` to rebuild `results/REVIEW-groq.md` from saved answers without API calls, keys, Git operations or worktrees. Missing answers and provider errors remain in the denominator. This command preserves the original score, prompts and answers.
+
 | # | Kind | Change | Test expected to fail | Expected file | Cause (rubric) |
 |---|---|---|---|---|---|
 | 01 | Product | API patch: the delete-article handler loses the author check | ownership > another user cannot delete my article | `docker/patches/api/01-delete-without-owner-check.patch` | Names the missing ownership/author check on DELETE, so any signed-in user can delete |

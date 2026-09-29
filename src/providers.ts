@@ -36,8 +36,43 @@ export function inputCost(model: string, inputTokens: number): number | null {
   return p ? (inputTokens * p.input) / 1e6 : null;
 }
 
-export const DEFAULT_MODELS = { openai: 'gpt-6-sol', gemini: 'gemini-3.8-flash' } as const;
+export const DEFAULT_MODELS = { openai: 'gpt-6-sol', gemini: 'gemini-3.8-flash', groq: 'openai/gpt-oss-120b' } as const;
 const TIMEOUT_MS = 120_000;
+
+export class GroqProvider implements Provider {
+  readonly name = 'groq';
+  private readonly client: OpenAI;
+
+  constructor(apiKey: string, readonly model: string = DEFAULT_MODELS.groq) {
+    // Retries belong to the evaluation harness, which observes provider limits.
+    this.client = new OpenAI({ apiKey, baseURL: 'https://api.groq.com/openai/v1', timeout: TIMEOUT_MS, maxRetries: 0 });
+  }
+
+  async countTokens(context: string): Promise<number> {
+    // Local estimate, not a tokenizer measurement; includes instructions and schema.
+    return Math.ceil(Buffer.byteLength(INSTRUCTIONS + context + JSON.stringify(DIAGNOSES_SCHEMA), 'utf8') / 3) + 32;
+  }
+
+  async diagnose(context: string): Promise<Answer> {
+    const res = await this.client.chat.completions.create({
+      model: this.model,
+      messages: [{ role: 'system', content: INSTRUCTIONS }, { role: 'user', content: context }],
+      response_format: { type: 'json_schema', json_schema: { name: SCHEMA_NAME, strict: true, schema: { ...DIAGNOSES_SCHEMA } } },
+      max_completion_tokens: 2048,
+    });
+    const choice = res.choices[0];
+    if (choice?.message.refusal) throw new Error(`groq refused: ${choice.message.refusal}`);
+    if (choice?.finish_reason !== 'stop') throw new Error(`groq stopped with ${choice?.finish_reason ?? 'no candidate'}`);
+    const usage: Usage = {
+      inputTokens: res.usage?.prompt_tokens ?? 0,
+      cachedTokens: res.usage?.prompt_tokens_details?.cached_tokens ?? 0,
+      cacheWriteTokens: 0,
+      outputTokens: res.usage?.completion_tokens ?? 0,
+    };
+    // The API does not report billing tier. Do not present a list price as an actual charge.
+    return { provider: this.name, model: this.model, diagnoses: parseDiagnoses(choice.message.content ?? ''), usage, costUsd: null };
+  }
+}
 
 export class OpenAIProvider implements Provider {
   readonly name = 'openai';
