@@ -1,0 +1,27 @@
+{
+ "tests": [
+  "author publishes an article and sees it rendered"
+ ],
+ "dropped": [],
+ "answer": {
+  "provider": "groq",
+  "model": "openai/gpt-oss-120b",
+  "diagnoses": [
+   {
+    "test": "author publishes an article and sees it rendered",
+    "cause": "The recent change in src/data/factory.ts moved the spread of overrides before the default fields, causing the provided body override (with '**bold**') to be overwritten by the default body, so the rendered article lacks the expected <strong> element.",
+    "file": "src/data/factory.ts",
+    "line": 14,
+    "confidence": "high",
+    "check_first": "Inspect the newArticle function in src/data/factory.ts to see that the overrides are applied before the default values, which nullifies any passed‑in body content."
+   }
+  ],
+  "usage": {
+   "inputTokens": 1226,
+   "cachedTokens": 0,
+   "cacheWriteTokens": 0,
+   "outputTokens": 589
+  },
+  "costUsd": null
+ }
+}

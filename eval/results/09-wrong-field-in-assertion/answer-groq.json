@@ -1,0 +1,27 @@
+{
+ "tests": [
+  "author publishes an article and sees it rendered"
+ ],
+ "dropped": [],
+ "answer": {
+  "provider": "groq",
+  "model": "openai/gpt-oss-120b",
+  "diagnoses": [
+   {
+    "test": "author publishes an article and sees it rendered",
+    "cause": "The test was changed to expect the article heading to match draft.body instead of the article title, causing a mismatch with the rendered heading.",
+    "file": "tests/e2e/publish-article.spec.ts",
+    "line": 14,
+    "confidence": "high",
+    "check_first": "Inspect the diff at line 14 where the expectation was changed from draft.title to draft.body."
+   }
+  ],
+  "usage": {
+   "inputTokens": 1316,
+   "cachedTokens": 0,
+   "cacheWriteTokens": 0,
+   "outputTokens": 455
+  },
+  "costUsd": null
+ }
+}

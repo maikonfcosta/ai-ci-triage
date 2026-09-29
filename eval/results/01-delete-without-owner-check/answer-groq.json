@@ -1,0 +1,27 @@
+{
+ "tests": [
+  "ownership > another user cannot delete my article"
+ ],
+ "dropped": [],
+ "answer": {
+  "provider": "groq",
+  "model": "openai/gpt-oss-120b",
+  "diagnoses": [
+   {
+    "test": "another user cannot delete my article",
+    "cause": "A recent patch removed the ownership check in the article delete handler, so deletion no longer returns 403 for non‑owners and succeeds with 204",
+    "file": "server/routes/api/articles/[slug]/index.delete.ts",
+    "line": 22,
+    "confidence": "high",
+    "check_first": "Inspect the diff docker/patches/api/01-delete-without-owner-check.patch that deletes the if‑block checking existingArticle.author.id !== auth.id"
+   }
+  ],
+  "usage": {
+   "inputTokens": 1319,
+   "cachedTokens": 0,
+   "cacheWriteTokens": 0,
+   "outputTokens": 382
+  },
+  "costUsd": null
+ }
+}

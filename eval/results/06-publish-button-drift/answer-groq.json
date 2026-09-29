@@ -1,0 +1,27 @@
+{
+ "tests": [
+  "author publishes an article and sees it rendered"
+ ],
+ "dropped": [],
+ "answer": {
+  "provider": "groq",
+  "model": "openai/gpt-oss-120b",
+  "diagnoses": [
+   {
+    "test": "author publishes an article and sees it rendered",
+    "cause": "The selector in EditorPage.publish was changed to look for a button named 'Publish' (exact true) while the UI still uses 'Publish Article', causing the click and waitForResponse to time out.",
+    "file": "src/pages/editor.page.ts",
+    "line": 38,
+    "confidence": "high",
+    "check_first": "Inspect the Publish button’s accessible name in the editor UI and update the selector (or revert to the original 'Publish Article' label) so the getByRole call matches the actual button."
+   }
+  ],
+  "usage": {
+   "inputTokens": 2085,
+   "cachedTokens": 0,
+   "cacheWriteTokens": 0,
+   "outputTokens": 461
+  },
+  "costUsd": null
+ }
+}

@@ -1,0 +1,45 @@
+{
+ "tests": [
+  "sign up and sign in > new visitor signs up and lands on the home page signed in",
+  "sign up and sign in > existing user signs in",
+  "sign up and sign in > wrong password keeps the user on the sign in page with an error"
+ ],
+ "dropped": [],
+ "answer": {
+  "provider": "groq",
+  "model": "openai/gpt-oss-120b",
+  "diagnoses": [
+   {
+    "test": "sign up and sign in > new visitor signs up and lands on the home page signed in",
+    "cause": "The global expect timeout was set to 1 ms, causing the toHaveURL assertion to time out before the navigation completes.",
+    "file": "playwright.config.ts",
+    "line": 10,
+    "confidence": "high",
+    "check_first": "Inspect the added `expect: { timeout: 1 }` entry in playwright.config.ts and consider increasing the timeout to the default or a reasonable value."
+   },
+   {
+    "test": "sign up and sign in > existing user signs in",
+    "cause": "The global expect timeout of 1 ms causes the visibility check to fail because the element is not found within the tiny window.",
+    "file": "playwright.config.ts",
+    "line": 10,
+    "confidence": "high",
+    "check_first": "Review the `expect: { timeout: 1 }` setting in playwright.config.ts and raise the timeout."
+   },
+   {
+    "test": "sign up and sign in > wrong password keeps the user on the sign in page with an error",
+    "cause": "With a 1 ms expect timeout, the error message is not captured in time, leading to a toContainText failure.",
+    "file": "playwright.config.ts",
+    "line": 10,
+    "confidence": "high",
+    "check_first": "Check the `expect: { timeout: 1 }` configuration in playwright.config.ts and increase the timeout to allow UI updates to be detected."
+   }
+  ],
+  "usage": {
+   "inputTokens": 2546,
+   "cachedTokens": 0,
+   "cacheWriteTokens": 0,
+   "outputTokens": 576
+  },
+  "costUsd": null
+ }
+}

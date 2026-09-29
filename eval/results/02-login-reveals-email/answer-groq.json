@@ -1,0 +1,27 @@
+{
+ "tests": [
+  "auth contract > wrong password does not reveal whether the email exists"
+ ],
+ "dropped": [],
+ "answer": {
+  "provider": "groq",
+  "model": "openai/gpt-oss-120b",
+  "diagnoses": [
+   {
+    "test": "wrong password does not reveal whether the email exists",
+    "cause": "A new check was added to the login handler that throws a 404 with an \"email not found\" error when the user is not found, causing the unknown‑email response to differ from the wrong‑password response expected by the test.",
+    "file": "server/routes/api/users/login.post.ts",
+    "line": 22,
+    "confidence": "high",
+    "check_first": "Inspect the added `if (!foundUser) { … }` block in login.post.ts (around line 22) which now returns a distinct error for unknown emails."
+   }
+  ],
+  "usage": {
+   "inputTokens": 1158,
+   "cachedTokens": 0,
+   "cacheWriteTokens": 0,
+   "outputTokens": 409
+  },
+  "costUsd": null
+ }
+}

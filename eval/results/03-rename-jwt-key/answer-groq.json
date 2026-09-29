@@ -1,0 +1,45 @@
+{
+ "tests": [
+  "reader comments on an article and the comment survives a reload",
+  "author publishes an article and sees it rendered",
+  "browser starts signed in with the session created by the API"
+ ],
+ "dropped": [],
+ "answer": {
+  "provider": "groq",
+  "model": "openai/gpt-oss-120b",
+  "diagnoses": [
+   {
+    "test": "reader comments on an article and the comment survives a reload",
+    "cause": "The comment textarea locator (by placeholder \"Write a comment…\") no longer matches the DOM, causing fill() to time out.",
+    "file": "src/pages/article.page.ts",
+    "line": 12,
+    "confidence": "low",
+    "check_first": "Verify that the placeholder text for the comment box in the UI matches the string used in article.page.ts (line 12)."
+   },
+   {
+    "test": "author publishes an article and sees it rendered",
+    "cause": "The title input locator (by placeholder \"Article Title\") cannot be found, likely because the placeholder text changed, causing fill() to time out.",
+    "file": "src/pages/editor.page.ts",
+    "line": 11,
+    "confidence": "low",
+    "check_first": "Check the placeholder attribute of the title field in the editor UI and ensure it matches the string used in editor.page.ts (line 11)."
+   },
+   {
+    "test": "browser starts signed in with the session created by the API",
+    "cause": "Renaming the JWT storage key from 'jwtToken' to 'jwt' broke token retrieval, so the session isn’t established and the \"New Article\" link is missing.",
+    "file": "src/app/core/auth/services/jwt.service.ts",
+    "line": 5,
+    "confidence": "high",
+    "check_first": "Inspect the getToken() implementation in jwt.service.ts (line 5) and confirm it aligns with where the token is saved."
+   }
+  ],
+  "usage": {
+   "inputTokens": 3614,
+   "cachedTokens": 0,
+   "cacheWriteTokens": 0,
+   "outputTokens": 760
+  },
+  "costUsd": null
+ }
+}

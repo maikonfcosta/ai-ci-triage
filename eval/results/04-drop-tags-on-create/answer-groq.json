@@ -1,0 +1,27 @@
+{
+ "tests": [
+  "author publishes an article and sees it rendered"
+ ],
+ "dropped": [],
+ "answer": {
+  "provider": "groq",
+  "model": "openai/gpt-oss-120b",
+  "diagnoses": [
+   {
+    "test": "author publishes an article and sees it rendered",
+    "cause": "The recent change in the article‑creation API slices the tag list, dropping the first tag, so only one tag is stored and rendered.",
+    "file": "server/routes/api/articles/index.post.ts",
+    "line": 25,
+    "confidence": "high",
+    "check_first": "Look at the patch 04-drop-tags-on-create.patch where tagList.slice(1) replaces tagList, causing the first tag ('release') to be omitted."
+   }
+  ],
+  "usage": {
+   "inputTokens": 1354,
+   "cachedTokens": 0,
+   "cacheWriteTokens": 0,
+   "outputTokens": 543
+  },
+  "costUsd": null
+ }
+}
