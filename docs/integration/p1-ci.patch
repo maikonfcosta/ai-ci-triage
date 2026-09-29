@@ -23,7 +23,7 @@
 +              steps.classify.outputs.verdicts != '' &&
 +              hashFiles('test-results/results.json') != '' }}
 +        continue-on-error: true
-+        uses: maikonfcosta/ai-ci-triage@REPLACE_WITH_PUBLISHED_COMMIT_SHA
++        uses: maikonfcosta/ai-ci-triage@5cf7d486b8861ee677bcedf529accc4050ba246a
 +        with:
 +          report: test-results/results.json
 +          verdicts: ${{ steps.classify.outputs.verdicts }}

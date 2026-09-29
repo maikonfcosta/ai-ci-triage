@@ -1,0 +1,25 @@
+{
+ "kind": "diagnosed",
+ "result": {
+  "provider": "groq",
+  "model": "openai/gpt-oss-120b",
+  "diagnoses": [
+   {
+    "test": "author publishes an article and sees it rendered",
+    "cause": "The test was changed to compare the article heading to the draft body instead of the title, causing a mismatch with the UI which renders the title.",
+    "file": "tests/e2e/publish-article.spec.ts",
+    "line": 14,
+    "confidence": "high",
+    "check_first": "Inspect the diff where line 14 was changed from draft.title to draft.body."
+   }
+  ],
+  "usage": {
+   "inputTokens": 1744,
+   "cachedTokens": 0,
+   "cacheWriteTokens": 0,
+   "outputTokens": 423
+  },
+  "costUsd": null
+ },
+ "dropped": []
+}
