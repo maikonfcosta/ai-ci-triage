@@ -1,11 +1,11 @@
 // Renders the PR comment from structured data. The model never writes markdown that lands on the PR.
 
-import type { Result } from './providers';
+import type { Answer } from './providers';
 
 export const MARKER = '<!-- ai-ci-triage -->';
 
 export type Outcome =
-  | { kind: 'diagnosed'; result: Result; dropped: string[] }
+  | { kind: 'diagnosed'; result: Answer; dropped: string[] }
   | { kind: 'nothing'; reason: string }
   | { kind: 'unavailable'; reason: string };
 
@@ -25,9 +25,8 @@ export function renderComment(outcome: Outcome): string {
       lines.push(`| ${cell(d.test)} | ${cell(d.cause)} | ${where} | ${d.confidence} | ${cell(d.check_first)} |`);
     }
     const u = result.usage;
-    const cost = result.costUsd === null ? 'unknown (model not in the price table)' : `$${result.costUsd.toFixed(4)}`;
-    lines.push('', `<sub>${result.provider} \`${result.model}\` · ${u.inputTokens} input tokens (${u.cachedTokens} cached) · ${u.outputTokens} output tokens · ${cost}</sub>`);
-    if (result.fallbackReason) lines.push('', `<sub>Answered by the fallback. ${cell(result.fallbackReason)}</sub>`);
+    const cost = result.costUsd === null ? 'unknown (billing tier not reported)' : `$${result.costUsd.toFixed(4)}`;
+    lines.push('', `<sub>${result.provider} \`${result.model}\` Â· ${u.inputTokens} input tokens (${u.cachedTokens} cached) Â· ${u.outputTokens} output tokens Â· ${cost}</sub>`);
     if (dropped.length) lines.push('', `<sub>Left out to fit the token limit: ${dropped.map(cell).join('; ')}</sub>`);
   }
   return lines.join('\n');

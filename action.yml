@@ -11,25 +11,15 @@ inputs:
     description: Token with pull-requests write permission for the current repository.
     default: ${{ github.token }}
   groq-api-key:
-    description: Optional Groq key. When supplied, Groq is the primary provider.
+    description: Groq API key. Required for a real diagnosis.
   groq-model:
     description: Groq model supporting strict structured output.
     default: openai/gpt-oss-120b
-  openai-api-key:
-    description: Optional OpenAI key. Primary without Groq, otherwise fallback.
-  openai-model:
-    description: OpenAI model supporting structured output.
-    default: gpt-6-sol
-  gemini-api-key:
-    description: Optional Gemini key. Used when no higher-priority fallback exists.
-  gemini-model:
-    description: Gemini model supporting structured output.
-    default: gemini-3.8-flash
   max-input-tokens:
     description: Input context budget. Groq counts are local estimates.
     default: '30000'
   dry-run:
-    description: Build the prompt without diagnosis or comment. Token counting may contact configured providers.
+    description: Build the prompt without diagnosis or comment. PR context may still contact GitHub.
     default: 'false'
 outputs:
   result:

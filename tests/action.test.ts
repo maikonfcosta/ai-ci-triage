@@ -48,3 +48,13 @@ it('keeps exit zero and writes a summary when input reports are missing', () => 
   expect(JSON.parse(readFileSync(join(result.dir, 'ai-ci-triage.json'), 'utf8')).kind).toBe('unavailable');
   expect(readFileSync(join(result.dir, 'summary'), 'utf8')).toContain('No diagnosis');
 });
+
+it('does not use retired API inputs when the Groq key is missing', () => {
+  const result = action('pull_request', { pull_request: { number: 1, head: { repo: { full_name: 'owner/repo' } }, base: { repo: { full_name: 'owner/repo' } } } }, {
+    'INPUT_OPENAI-API-KEY': 'unused-synthetic-key',
+    'INPUT_GEMINI-API-KEY': 'unused-synthetic-key',
+    INPUT_REPORT: resolve('tests/fixtures/app-up-report.json'),
+    INPUT_VERDICTS: resolve('tests/fixtures/app-up-verdicts.json'),
+  });
+  expect(JSON.parse(readFileSync(join(result.dir, 'ai-ci-triage.json'), 'utf8'))).toEqual({ kind: 'unavailable', reason: 'no Groq API key is set' });
+});

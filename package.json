@@ -23,8 +23,6 @@
     "vitest": "5.0.2"
   },
   "dependencies": {
-    "@google/genai": "2.24.0",
-    "@octokit/rest": "22.0.1",
-    "openai": "7.23.0"
+    "@octokit/rest": "22.0.1"
   }
 }

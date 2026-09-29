@@ -4,8 +4,8 @@ import { join, resolve } from 'node:path';
 import { parseDiagnoses } from '../src/prompt';
 import { scoreDiagnosis } from './scoring';
 
-const provider = process.argv[2];
-if (!provider || !['groq', 'gemini', 'openai'].includes(provider)) throw new Error('usage: npm run eval:score -- groq|gemini|openai');
+const provider = process.argv[2] ?? 'groq';
+if (provider !== 'groq') throw new Error('Only Groq is supported: npm run eval:score -- groq');
 const root = resolve('eval');
 const names = readdirSync(join(root, 'cases'));
 const cases = readFileSync(join(root, 'CASES.md'), 'utf8').split('\n').filter((l) => /^\| \d\d \|/.test(l));

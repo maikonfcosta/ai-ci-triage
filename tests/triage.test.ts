@@ -12,8 +12,7 @@ function run(overrides: Partial<TriageInput> = {}) {
     repoRoot: '/repo',
     secrets: [],
     maxTokens: 30_000,
-    primary: fakeProvider('openai'),
-    fallback: fakeProvider('gemini'),
+    provider: fakeProvider('groq'),
     dryRun: false,
     publish: async (c) => {
       published.push(c);
@@ -35,36 +34,21 @@ describe('triage', () => {
     expect(published[0]).toContain('`tests/e2e/article.spec.ts:12`');
   });
 
-  it('says in the comment when the fallback answered', async () => {
-    const { published, done } = run({ primary: fakeProvider('openai', new Error('503 overloaded')) });
-    await done;
-
-    expect(published[0]).toContain('Answered by the fallback. openai failed: 503 overloaded');
-  });
-
   describe('never fails the job', () => {
-    it('both providers down: comment says so, nothing thrown', async () => {
-      const { published, done } = run({ primary: fakeProvider('openai', new Error('down')), fallback: fakeProvider('gemini', new Error('also down')) });
+    it('Groq unavailable: comment says so, nothing thrown', async () => {
+      const { published, done } = run({ provider: fakeProvider('groq', new Error('down')) });
       const report = await done;
 
-      expect(report.outcome).toEqual({ kind: 'unavailable', reason: 'also down' });
-      expect(published[0]).toContain('No diagnosis this run: also down');
+      expect(report.outcome).toEqual({ kind: 'unavailable', reason: 'down' });
+      expect(published[0]).toContain('No diagnosis this run: down');
       expect(published[0]).toContain('The merge decision is not affected');
     });
 
     it('no API key set', async () => {
-      const { published, done } = run({ primary: undefined, fallback: undefined });
+      const { published, done } = run({ provider: undefined });
       await done;
 
-      expect(published[0]).toContain('no model API key is set');
-    });
-
-    it('only the fallback key set: it becomes the one that answers', async () => {
-      const gemini = fakeProvider('gemini');
-      const { done } = run({ primary: undefined, fallback: gemini });
-      const report = await done;
-
-      expect(report.outcome.kind === 'diagnosed' && report.outcome.result.provider).toBe('gemini');
+      expect(published[0]).toContain('no Groq API key is set');
     });
 
     it('unreadable report', async () => {
@@ -92,28 +76,28 @@ describe('triage', () => {
   });
 
   it('skips the call when nothing needs a diagnosis', async () => {
-    const primary = fakeProvider('openai');
-    const { published, done } = run({ failures: () => [], primary });
+    const provider = fakeProvider('groq');
+    const { published, done } = run({ failures: () => [], provider });
     await done;
 
-    expect(primary.diagnosed).toBe(0);
+    expect(provider.diagnosed).toBe(0);
     expect(published[0]).toContain('Nothing to diagnose');
   });
 
   it('dry run: builds and prints the prompt, calls no model and posts nothing', async () => {
-    const primary = fakeProvider('openai');
-    const { published, logs, done } = run({ primary, dryRun: true });
+    const provider = fakeProvider('groq');
+    const { published, logs, done } = run({ provider, dryRun: true });
     const report = await done;
 
-    expect(primary.diagnosed).toBe(0);
+    expect(provider.diagnosed).toBe(0);
     expect(published).toEqual([]);
     expect(report.prompt).toContain('<error test="product: article shows the wrong author"');
-    expect(logs.join('\n')).toMatch(/dry run: 1 failures, \d+ input tokens for openai-model/);
+    expect(logs.join('\n')).toMatch(/dry run: 1 failures, \d+ input tokens for groq-model/);
     expect(logs.join('\n')).toContain('--- prompt ---');
   });
 
   it('dry run works without any key, on an estimate', async () => {
-    const { logs, done } = run({ primary: undefined, fallback: undefined, dryRun: true });
+    const { logs, done } = run({ provider: undefined, dryRun: true });
     await done;
 
     expect(logs.join('\n')).toContain('input tokens for none');

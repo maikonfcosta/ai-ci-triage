@@ -2,8 +2,8 @@
 // the branch diff and a checkout of the branch, through the same context builder the action uses.
 //
 //   npm run eval -- ../playwright-reference-suite            dry run: prompts, tokens, estimated cost
-//   npm run eval -- ../playwright-reference-suite --run      calls both providers, writes eval/results/
-//   add --only groq (or gemini, openai) to evaluate a single provider
+//   npm run eval -- ../playwright-reference-suite --run      calls Groq, writes eval/results/
+//   --only groq remains accepted for compatibility
 //
 // Keys come from the environment or the git-ignored .env loaded by npm run eval.
 
@@ -13,7 +13,7 @@ import { join, resolve } from 'node:path';
 import { buildContext } from '../src/context';
 import { selectFailures, type Failure } from '../src/failures';
 import { scoreDiagnosis } from './scoring';
-import { DEFAULT_MODELS, GeminiProvider, GroqProvider, inputCost, OpenAIProvider, type Answer, type Provider } from '../src/providers';
+import { DEFAULT_MODELS, GroqProvider, estimateTokens, type Answer, type Provider } from '../src/providers';
 import { secretValues } from '../src/redact';
 
 const MAX_TOKENS = 30_000;
@@ -58,42 +58,23 @@ function localize(failures: Failure[], worktree: string): Failure[] {
   return failures.map((f) => ({ ...f, frames: f.frames.map((fr) => ({ ...fr, file: fr.file.replace(CI_ROOT, root) })) }));
 }
 
-// Without a key, a dry run still works on a 4-characters-per-token estimate, labeled as such.
-function estimator(name: string, model: string): Provider {
-  return {
-    name: `${name} (estimated, no key)`,
-    model,
-    countTokens: async (t) => Math.ceil(t.length / 4),
-    diagnose: async () => {
-      throw new Error(`${name}: no API key in the environment`);
-    },
-  };
-}
-
 // A key with a control character (a paste that did not paste) makes the SDK report "Connection error." instead of 401.
 function checkKey(name: string, key: string | undefined): void {
   if (key === undefined) return;
   if (!/^[\x21-\x7e]{20,}$/.test(key)) throw new Error(`${name} does not look like an API key (${key.length} characters, or has spaces/control characters)`);
 }
 
-function providers(only?: string): Record<string, Provider> {
-  const { OPENAI_API_KEY: rawO, GEMINI_API_KEY: rawG, GROQ_API_KEY: rawQ } = process.env;
-  const o = (!only || only === 'openai') ? rawO?.trim() || undefined : undefined;
-  const g = (!only || only === 'gemini') ? rawG?.trim() || undefined : undefined;
-  const q = (!only || only === 'groq') ? rawQ?.trim() || undefined : undefined;
-  checkKey('OPENAI_API_KEY', o);
-  checkKey('GEMINI_API_KEY', g);
-  checkKey('GROQ_API_KEY', q);
-  return {
-    openai: o ? new OpenAIProvider(o) : estimator('openai', DEFAULT_MODELS.openai),
-    // The harness paces and retries itself; SDK retries would spend quota without waiting for it.
-    gemini: g ? new GeminiProvider(g, undefined, { attempts: 1 }) : estimator('gemini', DEFAULT_MODELS.gemini),
-    groq: q ? new GroqProvider(q) : estimator('groq', DEFAULT_MODELS.groq),
-  };
+function providers(): Record<string, Provider> {
+  const key = process.env.GROQ_API_KEY?.trim();
+  checkKey('GROQ_API_KEY', key || undefined);
+  return { groq: key ? new GroqProvider(key) : {
+    name: 'groq', model: DEFAULT_MODELS.groq,
+    countTokens: async (text) => estimateTokens(text),
+    diagnose: async () => { throw new Error('GROQ_API_KEY is required'); },
+  } };
 }
 
-// The free tier of the Gemini API allows 5 requests per minute per model, and a busy model answers 503.
-const GAP_MS = 13_000;
+const GAP_MS = 65_000;
 let lastCall = 0;
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
@@ -122,11 +103,11 @@ async function main() {
   if (!suiteArg) throw new Error('usage: npm run eval -- <path to playwright-reference-suite> [--run]');
   const suite = resolve(suiteArg);
   const real = flags.includes('--run');
-  // --only gemini: evaluate one provider, e.g. when the other one's key is not usable.
+  // Keep the existing Groq command compatible; reject removed providers before any Git/network call.
   const only = flags.includes('--only') ? flags[flags.indexOf('--only') + 1] : undefined;
-  const models = Object.fromEntries(Object.entries(providers(only)).filter(([name]) => !only || name === only));
-  if (only && Object.keys(models).length === 0) throw new Error(`--only ${only}: no such provider`);
-  if (only === 'groq' && real && !process.env.GROQ_API_KEY?.trim()) throw new Error('GROQ_API_KEY is required for --run --only groq');
+  if (flags.includes('--only') && only !== 'groq') throw new Error('Only Groq is supported: use --only groq or omit --only');
+  const models = providers();
+  if (real && !process.env.GROQ_API_KEY?.trim()) throw new Error('GROQ_API_KEY is required for --run --only groq');
   if ('groq' in models) console.log('Groq: input tokens are a local estimate; billing cost is unknown (free-tier use has no API charge).');
   sh('git', ['fetch', '-q', 'origin'], suite);
 
@@ -152,18 +133,17 @@ async function main() {
           maxTokens: MAX_TOKENS,
           countTokens: (t) => provider.countTokens(t),
         });
-        const estimate = inputCost(provider.model, context.tokens);
-        if (!real) { total += estimate ?? 0; unknownCost ||= estimate === null; }
+        if (!real) unknownCost = true;
         writeFileSync(join(results, c.name, `prompt-${name}.txt`), context.text);
 
         if (!real) {
-          rows.push(`| ${c.id} | ${provider.name} | ${failures.length} | ${context.tokens}${name === 'groq' ? ' (estimated)' : ''} | ${estimate === null ? 'unknown' : `$${estimate.toFixed(4)}`} | ${context.dropped.length} |`);
+          rows.push(`| ${c.id} | ${provider.name} | ${failures.length} | ${context.tokens}${name === 'groq' ? ' (estimated)' : ''} | unknown | ${context.dropped.length} |`);
           continue;
         }
         const file = join(results, c.name, `answer-${name}.json`);
         const saved = existsSync(file) ? (JSON.parse(readFileSync(file, 'utf8')).answer as Answer | { error: string }) : undefined;
         // A case already answered is not paid for again; a saved error is retried.
-        const answer = saved && !('error' in saved) ? saved : await paced(() => provider.diagnose(context.text), `${c.id} ${name}`, name === 'groq' ? 65_000 : GAP_MS);
+        const answer = saved && !('error' in saved) ? saved : await paced(() => provider.diagnose(context.text), `${c.id} ${name}`, GAP_MS);
         writeFileSync(file, JSON.stringify({ tests, dropped: context.dropped, answer }, null, 1));
         if ('error' in answer) {
           rows.push(`| ${c.id} | ${name} | error | | | | | ${answer.error.replace(/\|/g, '\\|')} |`);
@@ -189,7 +169,7 @@ async function main() {
     : ['| Case | Provider | Failures | Input tokens | Input cost | Parts dropped |', '|---|---|---|---|---|---|'];
   const report = [...header, ...rows, '', `${real ? 'Total cost' : 'Estimated input cost'}: ${unknownCost ? 'unknown (one or more prices unavailable)' : `$${total.toFixed(4)}`}`].join('\n');
   const reportName = real ? 'SCORES-v2' : 'DRY-RUN';
-  writeFileSync(join(results, `${reportName}${only === 'groq' ? '-groq' : ''}.md`), `${report}\n`);
+  writeFileSync(join(results, `${reportName}-groq.md`), `${report}\n`);
   console.log(report);
 }
 

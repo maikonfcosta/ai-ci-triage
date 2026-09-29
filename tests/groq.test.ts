@@ -18,6 +18,9 @@ it('sends the shared strict schema to Groq and preserves measured usage', async 
   const result = await new GroqProvider('test-key').diagnose('failure context');
   const [url, init] = fetch.mock.calls[0] as unknown as [string, RequestInit];
   expect(String(url)).toBe('https://api.groq.com/openai/v1/chat/completions');
+  expect(init.method).toBe('POST');
+  expect(new Headers(init.headers).get('authorization')).toBe('Bearer test-key');
+  expect(init.signal).toBeInstanceOf(AbortSignal);
   const body = JSON.parse(String(init.body));
   expect(body.model).toBe('openai/gpt-oss-120b');
   expect(body.response_format.json_schema.strict).toBe(true);
@@ -41,11 +44,16 @@ it('estimates tokens locally without spending API requests', async () => {
   expect(fetch).not.toHaveBeenCalled();
 });
 
-it('does not hide extra retries in the SDK', async () => {
+it('makes only one HTTP attempt when Groq is unavailable', async () => {
   const fetch = vi.fn(async () => new Response(JSON.stringify({ error: { message: 'busy' } }), { status: 503 }));
   vi.stubGlobal('fetch', fetch);
   await expect(new GroqProvider('test-key').diagnose('ctx')).rejects.toThrow();
   expect(fetch).toHaveBeenCalledTimes(1);
+});
+
+it('reports status and retry timing without echoing the error body', async () => {
+  vi.stubGlobal('fetch', async () => new Response('sensitive echoed body', { status: 429, headers: { 'retry-after': '65' } }));
+  await expect(new GroqProvider('test-key').diagnose('ctx')).rejects.toThrow('groq HTTP 429; retry in 65s');
 });
 
 it('redacts Groq keys even when they are not from the current environment', () => {

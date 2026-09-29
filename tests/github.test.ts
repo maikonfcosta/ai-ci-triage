@@ -66,8 +66,8 @@ describe('renderComment', () => {
       kind: 'diagnosed',
       dropped: [],
       result: {
-        provider: 'openai',
-        model: 'gpt-6-sol',
+        provider: 'groq',
+        model: 'openai/gpt-oss-120b',
         usage: { inputTokens: 1, cachedTokens: 0, cacheWriteTokens: 0, outputTokens: 1 },
         costUsd: null,
         diagnoses: [{ ...DIAGNOSIS, cause: 'a | b\n<img src=x onerror=alert(1)>' }],
@@ -75,6 +75,6 @@ describe('renderComment', () => {
     });
 
     expect(body).toContain('a \\| b &lt;img src=x onerror=alert(1)&gt;');
-    expect(body).toContain('unknown (model not in the price table)');
+    expect(body).toContain('unknown (billing tier not reported)');
   });
 });
