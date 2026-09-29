@@ -18,19 +18,19 @@ flowchart LR
 
 I built this GitHub Action to explain failed Playwright tests using the error, PR diff and nearby source. It posts a likely cause with a file, line and confidence, then updates the same comment on subsequent runs. [failure-classifier](https://github.com/maikonfcosta/failure-classifier) keeps control of the test gate.
 
-**[Live demo comment](https://github.com/maikonfcosta/playwright-reference-suite/pull/1#issuecomment-5896070196)** · [Spec](SPEC.md) · [Evaluation](eval/results/REVIEW-groq.md) · [Remote evidence](docs/integration/evidence/run-36611138629-attempt-2/VERIFICATION.md)
+**[Live demo comment](https://github.com/maikonfcosta/playwright-reference-suite/pull/1#issuecomment-5896070196)** · [Spec](SPEC.md) · [Evaluation](eval/results/REVIEW-groq.md) · [Remote evidence](docs/integration/evidence/run-36621159222/VERIFICATION.md)
 
 ### What is covered
 
 | Behavior | Evidence |
 |---|---|
 | Diagnose a known assertion failure | Demo points to `draft.body` instead of `draft.title`, line 14 |
-| Update a single comment | Two runs, same comment ID `5896070196` |
-| Preserve the deterministic gate | Both demo runs: 16 passed, 1 intentional failure; classifier stayed red |
+| Update a single comment | Groq-only run updated the existing comment ID `5896070196` |
+| Preserve the deterministic gate | Groq-only demo: 16 passed, 1 intentional failure; classifier stayed red |
 | Scrub secrets and handle Groq unavailability | Automated tests with synthetic inputs and mocked clients |
 | Ship a standalone Node 24 action | Bundle tested outside the repo; CI verifies it matches source |
 
-The [P3 CI run](https://github.com/maikonfcosta/ai-ci-triage/actions/runs/36610382340) passed 62 tests. The demo's deliberate assertion failure must not be merged.
+The [P3 CI run](https://github.com/maikonfcosta/ai-ci-triage/actions/runs/36620895379) passed 56 tests. The demo's deliberate assertion failure must not be merged.
 
 ### Run it
 
@@ -48,7 +48,7 @@ To rescore saved responses without network access: `npm run eval:score -- groq`.
 
 ### Use in a workflow
 
-The pinned example is the previously demonstrated v0.1.0 implementation. To use the Groq-only refactor, pin its reviewed commit after publication. After checkout and the classifier step (`id: classify`), use the pinned, demonstrated version below. The job needs `contents: read` and `pull-requests: write`. Supply only the key for the provider you intend to use. [Full integration patch and procedure](docs/integration/F5.md).
+The example pins the Groq-only commit validated in the remote demo. After checkout and the classifier step (`id: classify`), use the version below. The job needs `contents: read` and `pull-requests: write`. Supply `GROQ_API_KEY`. [Full integration procedure](docs/integration/F5.md).
 
 ```yaml
 - name: Explain failures (advisory only)
@@ -58,7 +58,7 @@ The pinned example is the previously demonstrated v0.1.0 implementation. To use 
         steps.classify.outputs.verdicts != '' &&
         hashFiles('test-results/results.json') != '' }}
   continue-on-error: true
-  uses: maikonfcosta/ai-ci-triage@5cf7d486b8861ee677bcedf529accc4050ba246a
+  uses: maikonfcosta/ai-ci-triage@9705cd79a826b265c04fe1967c2d177340c551b6
   with:
     report: test-results/results.json
     verdicts: ${{ steps.classify.outputs.verdicts }}
@@ -103,7 +103,7 @@ Code assembles and redacts the context before sending it. The model receives no 
 #### Accepted for now
 
 - The current scope is Groq only, using native Node fetch. Historical evaluation inputs and v0.1.0 evidence are retained; removed providers are no longer a pending comparison.
-- The two remote diagnoses used 1,750/406 and 1,744/423 input/output tokens. Billing cost is unknown; no measured dollar-cost average is claimed.
+- The Groq-only demo used 1,745 input and 429 output tokens. The two historical v0.1.0 diagnoses used 1,750/406 and 1,744/423 input/output tokens. Billing cost is unknown; no measured dollar-cost average is claimed.
 - Groq evaluation waits 65 seconds between attempts. Account limits and context estimates can still cause errors.
 - A successful action step means the advisory tool did not fail the job; inspect its comment/result to know whether a diagnosis was produced.
 - `dry-run` suppresses diagnosis and publication, but GitHub may still be contacted for PR context; token counting is local. Use `eval:score` for a strictly offline review.
@@ -115,19 +115,19 @@ Code assembles and redacts the context before sending it. The model receives no 
 
 Criei esta GitHub Action para explicar falhas do Playwright usando o erro, o diff do PR e o código próximo da falha. Ela comenta a causa provável com arquivo, linha e confiança, e atualiza o mesmo comentário nas próximas execuções. O [failure-classifier](https://github.com/maikonfcosta/failure-classifier) mantém o controle do gate de testes.
 
-**[Comentário da demonstração](https://github.com/maikonfcosta/playwright-reference-suite/pull/1#issuecomment-5896070196)** · [Especificação](SPEC.md) · [Avaliação](eval/results/REVIEW-groq.md) · [Evidência remota](docs/integration/evidence/run-36611138629-attempt-2/VERIFICATION.md)
+**[Comentário da demonstração](https://github.com/maikonfcosta/playwright-reference-suite/pull/1#issuecomment-5896070196)** · [Especificação](SPEC.md) · [Avaliação](eval/results/REVIEW-groq.md) · [Evidência remota](docs/integration/evidence/run-36621159222/VERIFICATION.md)
 
 ### O que cobre
 
 | Comportamento | Evidência |
 |---|---|
 | Diagnosticar uma falha conhecida de asserção | Demonstração aponta `draft.body` no lugar de `draft.title`, linha 14 |
-| Atualizar um único comentário | Duas execuções, mesmo ID `5896070196` |
-| Preservar o gate determinístico | Ambas as execuções: 16 passed, 1 falha intencional; classificador permaneceu vermelho |
+| Atualizar um único comentário | Execução exclusiva da Groq atualizou o comentário existente, ID `5896070196` |
+| Preservar o gate determinístico | Demonstração exclusiva da Groq: 16 passed, 1 falha intencional; classificador permaneceu vermelho |
 | Ocultar segredos e tratar indisponibilidade da Groq | Testes automatizados com entradas sintéticas e clientes simulados |
 | Entregar uma Action independente em Node 24 | Pacote testado fora do repositório; CI verifica correspondência com o código |
 
-O [CI do P3](https://github.com/maikonfcosta/ai-ci-triage/actions/runs/36610382340) passou nos 62 testes. A falha intencional da demonstração não deve ser mesclada.
+O [CI do P3](https://github.com/maikonfcosta/ai-ci-triage/actions/runs/36620895379) passou nos 56 testes. A falha intencional da demonstração não deve ser mesclada.
 
 ### Como rodar
 
@@ -145,7 +145,7 @@ Para reavaliar respostas salvas sem rede: `npm run eval:score -- groq`. Para nov
 
 ### Uso no workflow
 
-O exemplo fixado é a implementação v0.1.0 já demonstrada. Para usar a refatoração exclusiva da Groq, fixe seu commit revisado após a publicação. Depois do checkout e do passo do classificador (`id: classify`), use a versão fixa demonstrada abaixo. O job precisa de `contents: read` e `pull-requests: write`. Informe apenas a chave do provedor que pretende usar. [Patch completo e procedimento](docs/integration/F5.md).
+O exemplo fixa o commit exclusivo da Groq validado na demonstração remota. Depois do checkout e do passo do classificador (`id: classify`), use a versão abaixo. O job precisa de `contents: read` e `pull-requests: write`. Informe `GROQ_API_KEY`. [Procedimento completo de integração](docs/integration/F5.md).
 
 ```yaml
 - name: Explain failures (advisory only)
@@ -155,7 +155,7 @@ O exemplo fixado é a implementação v0.1.0 já demonstrada. Para usar a refato
         steps.classify.outputs.verdicts != '' &&
         hashFiles('test-results/results.json') != '' }}
   continue-on-error: true
-  uses: maikonfcosta/ai-ci-triage@5cf7d486b8861ee677bcedf529accc4050ba246a
+  uses: maikonfcosta/ai-ci-triage@9705cd79a826b265c04fe1967c2d177340c551b6
   with:
     report: test-results/results.json
     verdicts: ${{ steps.classify.outputs.verdicts }}
@@ -200,7 +200,7 @@ O código monta o contexto e oculta segredos antes do envio. O modelo não receb
 #### Aceito por enquanto
 
 - O escopo atual é exclusivo da Groq, usando fetch nativo do Node. As entradas históricas de avaliação e as evidências da v0.1.0 foram preservadas; a comparação dos provedores removidos deixou de ser uma pendência.
-- Os dois diagnósticos remotos usaram 1.750/406 e 1.744/423 tokens de entrada/saída. O custo faturado é desconhecido; não há alegação de custo médio medido em dólares.
+- A demonstração exclusiva da Groq usou 1.745 tokens de entrada e 429 de saída. Os dois diagnósticos históricos da v0.1.0 usaram 1.750/406 e 1.744/423 tokens de entrada/saída. O custo faturado é desconhecido; não há alegação de custo médio medido em dólares.
 - A avaliação Groq espera 65 segundos entre tentativas. Limites da conta e estimativas de contexto ainda podem causar erros.
 - Um passo da Action verde significa que a ferramenta consultiva não falhou o job; consulte o comentário/resultado para saber se houve diagnóstico.
 - `dry-run` impede diagnóstico e publicação, mas o GitHub pode ser consultado para contexto do PR; a contagem de tokens é local. Use `eval:score` para revisão estritamente offline.
