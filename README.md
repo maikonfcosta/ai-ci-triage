@@ -2,7 +2,7 @@
 
 [![ci](https://github.com/maikonfcosta/ai-ci-triage/actions/workflows/ci.yml/badge.svg)](https://github.com/maikonfcosta/ai-ci-triage/actions/workflows/ci.yml)
 
-**[English](#english)** Â· **[PortuguÃªs](#portuguÃªs)**
+**[English](#english)** · **[Português](#português)**
 
 ```mermaid
 flowchart LR
@@ -18,7 +18,7 @@ flowchart LR
 
 I built this GitHub Action to explain failed Playwright tests using the error, PR diff and nearby source. It posts a likely cause with a file, line and confidence, then updates the same comment on subsequent runs. [failure-classifier](https://github.com/maikonfcosta/failure-classifier) keeps control of the test gate.
 
-**[Live demo comment](https://github.com/maikonfcosta/playwright-reference-suite/pull/1#issuecomment-5896070196)** Â· [Spec](SPEC.md) Â· [Evaluation](eval/results/REVIEW-groq.md) Â· [Remote evidence](docs/integration/evidence/run-36611138629-attempt-2/VERIFICATION.md)
+**[Live demo comment](https://github.com/maikonfcosta/playwright-reference-suite/pull/1#issuecomment-5896070196)** · [Spec](SPEC.md) · [Evaluation](eval/results/REVIEW-groq.md) · [Remote evidence](docs/integration/evidence/run-36611138629-attempt-2/VERIFICATION.md)
 
 ### What is covered
 
@@ -111,27 +111,27 @@ Code assembles and redacts the context before sending it. The model receives no 
 
 ---
 
-## PortuguÃªs
+## Português
 
-Criei esta GitHub Action para explicar falhas do Playwright usando o erro, o diff do PR e o cÃ³digo prÃ³ximo da falha. Ela comenta a causa provÃ¡vel com arquivo, linha e confianÃ§a, e atualiza o mesmo comentÃ¡rio nas prÃ³ximas execuÃ§Ãµes. O [failure-classifier](https://github.com/maikonfcosta/failure-classifier) mantÃ©m o controle do gate de testes.
+Criei esta GitHub Action para explicar falhas do Playwright usando o erro, o diff do PR e o código próximo da falha. Ela comenta a causa provável com arquivo, linha e confiança, e atualiza o mesmo comentário nas próximas execuções. O [failure-classifier](https://github.com/maikonfcosta/failure-classifier) mantém o controle do gate de testes.
 
-**[ComentÃ¡rio da demonstraÃ§Ã£o](https://github.com/maikonfcosta/playwright-reference-suite/pull/1#issuecomment-5896070196)** Â· [EspecificaÃ§Ã£o](SPEC.md) Â· [AvaliaÃ§Ã£o](eval/results/REVIEW-groq.md) Â· [EvidÃªncia remota](docs/integration/evidence/run-36611138629-attempt-2/VERIFICATION.md)
+**[Comentário da demonstração](https://github.com/maikonfcosta/playwright-reference-suite/pull/1#issuecomment-5896070196)** · [Especificação](SPEC.md) · [Avaliação](eval/results/REVIEW-groq.md) · [Evidência remota](docs/integration/evidence/run-36611138629-attempt-2/VERIFICATION.md)
 
 ### O que cobre
 
-| Comportamento | EvidÃªncia |
+| Comportamento | Evidência |
 |---|---|
-| Diagnosticar uma falha conhecida de asserÃ§Ã£o | DemonstraÃ§Ã£o aponta `draft.body` no lugar de `draft.title`, linha 14 |
-| Atualizar um Ãºnico comentÃ¡rio | Duas execuÃ§Ãµes, mesmo ID `5896070196` |
-| Preservar o gate determinÃ­stico | Ambas as execuÃ§Ãµes: 16 passed, 1 falha intencional; classificador permaneceu vermelho |
-| Ocultar segredos e tratar indisponibilidade da Groq | Testes automatizados com entradas sintÃ©ticas e clientes simulados |
-| Entregar uma Action independente em Node 24 | Pacote testado fora do repositÃ³rio; CI verifica correspondÃªncia com o cÃ³digo |
+| Diagnosticar uma falha conhecida de asserção | Demonstração aponta `draft.body` no lugar de `draft.title`, linha 14 |
+| Atualizar um único comentário | Duas execuções, mesmo ID `5896070196` |
+| Preservar o gate determinístico | Ambas as execuções: 16 passed, 1 falha intencional; classificador permaneceu vermelho |
+| Ocultar segredos e tratar indisponibilidade da Groq | Testes automatizados com entradas sintéticas e clientes simulados |
+| Entregar uma Action independente em Node 24 | Pacote testado fora do repositório; CI verifica correspondência com o código |
 
-O [CI do P3](https://github.com/maikonfcosta/ai-ci-triage/actions/runs/36610382340) passou nos 62 testes. A falha intencional da demonstraÃ§Ã£o nÃ£o deve ser mesclada.
+O [CI do P3](https://github.com/maikonfcosta/ai-ci-triage/actions/runs/36610382340) passou nos 62 testes. A falha intencional da demonstração não deve ser mesclada.
 
 ### Como rodar
 
-Requer Node 24. Os testes nÃ£o precisam de chaves de API.
+Requer Node 24. Os testes não precisam de chaves de API.
 
 ```sh
 npm ci
@@ -141,11 +141,11 @@ npm run build:check
 npm test
 ```
 
-Para reavaliar respostas salvas sem rede: `npm run eval:score -- groq`. Para novas chamadas, configure `GROQ_API_KEY` no `.env` ignorado pelo Git e execute `npm run eval -- ../playwright-reference-suite --run --only groq`. Ã‰ necessÃ¡rio o repositÃ³rio complementar com suas referÃªncias e artefatos de avaliaÃ§Ã£o. Respostas vÃ¡lidas salvas sÃ£o reaproveitadas; nÃ£o se trata de uma nova execuÃ§Ã£o independente. Consulte os [casos](eval/CASES.md).
+Para reavaliar respostas salvas sem rede: `npm run eval:score -- groq`. Para novas chamadas, configure `GROQ_API_KEY` no `.env` ignorado pelo Git e execute `npm run eval -- ../playwright-reference-suite --run --only groq`. É necessário o repositório complementar com suas referências e artefatos de avaliação. Respostas válidas salvas são reaproveitadas; não se trata de uma nova execução independente. Consulte os [casos](eval/CASES.md).
 
 ### Uso no workflow
 
-O exemplo fixado é a implementação v0.1.0 já demonstrada. Para usar a refatoração exclusiva da Groq, fixe seu commit revisado após a publicação. Depois do checkout e do passo do classificador (`id: classify`), use a versÃ£o fixa demonstrada abaixo. O job precisa de `contents: read` e `pull-requests: write`. Informe apenas a chave do provedor que pretende usar. [Patch completo e procedimento](docs/integration/F5.md).
+O exemplo fixado é a implementação v0.1.0 já demonstrada. Para usar a refatoração exclusiva da Groq, fixe seu commit revisado após a publicação. Depois do checkout e do passo do classificador (`id: classify`), use a versão fixa demonstrada abaixo. O job precisa de `contents: read` e `pull-requests: write`. Informe apenas a chave do provedor que pretende usar. [Patch completo e procedimento](docs/integration/F5.md).
 
 ```yaml
 - name: Explain failures (advisory only)
@@ -163,45 +163,45 @@ O exemplo fixado é a implementação v0.1.0 já demonstrada. Para usar a refato
     max-input-tokens: '5500'
 ```
 
-`result` contÃ©m o caminho do JSON de diagnÃ³stico. A Action tambÃ©m escreve no resumo do job. As entradas estÃ£o em [action.yml](action.yml). Com chave Groq, ela Ã© o provedor principal; OpenAI Ã© a alternativa se configurada, senÃ£o Gemini. Sem Groq, a ordem Ã© OpenAI e depois Gemini. Um diagnÃ³stico vÃ¡lido, mas incorreto, nÃ£o aciona a alternativa. A Action ignora forks e eventos fora de PR no modo normal.
+`result` contém o caminho do JSON de diagnóstico. A Action também escreve no resumo do job. As entradas estão em [action.yml](action.yml). Groq é o único provedor. Não há provedor alternativo. Se estiver indisponível, a Action informa que nenhum diagnóstico foi produzido. A Action ignora forks e eventos fora de PR no modo normal.
 
-### OrganizaÃ§Ã£o
+### Organização
 
 ```text
-src/                seleÃ§Ã£o de falhas, contexto, ocultaÃ§Ã£o, provedores, comentÃ¡rio
-tests/              testes unitÃ¡rios e do pacote isolado sem rede
-eval/               falhas provocadas, critÃ©rios, respostas salvas e pontuaÃ§Ã£o
-dist/index.mjs      Action empacotada, versionada com o cÃ³digo
-docs/integration/   procedimento da demonstraÃ§Ã£o e evidÃªncias remotas
+src/                seleção de falhas, contexto, ocultação, provedores, comentário
+tests/              testes unitários e do pacote isolado sem rede
+eval/               falhas provocadas, critérios, respostas salvas e pontuação
+dist/index.mjs      Action empacotada, versionada com o código
+docs/integration/   procedimento da demonstração e evidências remotas
 ```
 
-### DecisÃµes e concessÃµes
+### Decisões e concessões
 
-#### A primeira pontuaÃ§Ã£o revelou um problema na avaliaÃ§Ã£o
+#### A primeira pontuação revelou um problema na avaliação
 
-A Groq respondeu aos dez casos construÃ­dos com `openai/gpt-oss-120b`. O avaliador original registrou 5/10 acertos de arquivo. Algumas respostas abreviaram o nome do teste; outras citaram o arquivo de origem contido no patch, em vez do patch.
+A Groq respondeu aos dez casos construídos com `openai/gpt-oss-120b`. O avaliador original registrou 5/10 acertos de arquivo. Algumas respostas abreviaram o nome do teste; outras citaram o arquivo de origem contido no patch, em vez do patch.
 
-| MÃ©trica | Resultado |
+| Métrica | Resultado |
 |---|---|
-| PontuaÃ§Ã£o original de arquivo exato, preservada | 5/10 |
-| Arquivo exato apÃ³s associaÃ§Ã£o inequÃ­voca dos tÃ­tulos | 6/10 |
-| Aceitando tambÃ©m caminhos de origem do patch esperado | 10/10 |
+| Pontuação original de arquivo exato, preservada | 5/10 |
+| Arquivo exato após associação inequívoca dos títulos | 6/10 |
+| Aceitando também caminhos de origem do patch esperado | 10/10 |
 
-As regras mudaram depois de inspecionar as respostas. SÃ£o resultados de revisÃ£o posterior da pontuaÃ§Ã£o, nÃ£o uma melhoria na saÃ­da do modelo. O [relatÃ³rio original](eval/results/SCORES-groq.md), as [respostas salvas](eval/results/) e o [relatÃ³rio revisado](eval/results/REVIEW-groq.md) permanecem separados.
+As regras mudaram depois de inspecionar as respostas. São resultados de revisão posterior da pontuação, não uma melhoria na saída do modelo. O [relatório original](eval/results/SCORES-groq.md), as [respostas salvas](eval/results/) e o [relatório revisado](eval/results/REVIEW-groq.md) permanecem separados.
 
-#### Dez acertos de arquivo nÃ£o significam que todos os diagnÃ³sticos estavam corretos
+#### Dez acertos de arquivo não significam que todos os diagnósticos estavam corretos
 
-A [revisÃ£o de causas pela IA](eval/results/CAUSE-REVIEW-groq.md) associou as dez causas escolhidas aos critÃ©rios existentes; a revisÃ£o humana independente segue pendente. No caso 03, dois diagnÃ³sticos adicionais culparam seletores em vez da sessÃ£o quebrada. Esse conjunto pequeno de falhas construÃ­das nÃ£o demonstra precisÃ£o em produÃ§Ã£o, e a pontuaÃ§Ã£o de arquivos nÃ£o valida as linhas exatas.
+A [revisão de causas pela IA](eval/results/CAUSE-REVIEW-groq.md) associou as dez causas escolhidas aos critérios existentes; a revisão humana independente segue pendente. No caso 03, dois diagnósticos adicionais culparam seletores em vez da sessão quebrada. Esse conjunto pequeno de falhas construídas não demonstra precisão em produção, e a pontuação de arquivos não valida as linhas exatas.
 
-#### Uma requisiÃ§Ã£o, sem ciclo de agente
+#### Uma requisição, sem ciclo de agente
 
-O cÃ³digo monta o contexto e oculta segredos antes do envio. O modelo nÃ£o recebe ferramentas e retorna JSON estruturado. O contexto Ã© reduzido a um orÃ§amento; a contagem da Groq antes da chamada Ã© uma estimativa local. O uso real informado pela API fica no resultado. Os testes de segredos cobrem padrÃµes conhecidos e valores fornecidos pelo ambiente, nÃ£o todo tipo possÃ­vel de dado sensÃ­vel.
+O código monta o contexto e oculta segredos antes do envio. O modelo não recebe ferramentas e retorna JSON estruturado. O contexto é reduzido a um orçamento; a contagem da Groq antes da chamada é uma estimativa local. O uso real informado pela API fica no resultado. Os testes de segredos cobrem padrões conhecidos e valores fornecidos pelo ambiente, não todo tipo possível de dado sensível.
 
 #### Aceito por enquanto
 
-- Groq Ã© o Ãºnico provedor com avaliaÃ§Ã£o completa dos dez casos e demonstraÃ§Ã£o remota. Gemini produziu duas respostas vÃ¡lidas salvas antes de erros de disponibilidade/cota interromperem a avaliaÃ§Ã£o; OpenAI nÃ£o tem comparaÃ§Ã£o concluÃ­da aqui.
-- Os dois diagnÃ³sticos remotos usaram 1.750/406 e 1.744/423 tokens de entrada/saÃ­da. O custo faturado Ã© desconhecido; nÃ£o hÃ¡ alegaÃ§Ã£o de custo mÃ©dio medido em dÃ³lares.
-- A avaliaÃ§Ã£o Groq espera 65 segundos entre tentativas. Limites da conta e estimativas de contexto ainda podem causar erros.
-- Um passo da Action verde significa que a ferramenta consultiva nÃ£o falhou o job; consulte o comentÃ¡rio/resultado para saber se houve diagnÃ³stico.
-- `dry-run` impede diagnÃ³stico e publicaÃ§Ã£o, mas o GitHub pode ser consultado para contexto do PR; a contagem de tokens é local. Use `eval:score` para revisÃ£o estritamente offline.
-- Sem correÃ§Ã£o automÃ¡tica, aprovaÃ§Ã£o de merge ou alegaÃ§Ã£o de precisÃ£o em produÃ§Ã£o. ComparaÃ§Ã£o OpenAI/Gemini e revisÃ£o independente das causas continuam como partes nÃ£o concluÃ­das da especificaÃ§Ã£o original.
+- O escopo atual é exclusivo da Groq, usando fetch nativo do Node. As entradas históricas de avaliação e as evidências da v0.1.0 foram preservadas; a comparação dos provedores removidos deixou de ser uma pendência.
+- Os dois diagnósticos remotos usaram 1.750/406 e 1.744/423 tokens de entrada/saída. O custo faturado é desconhecido; não há alegação de custo médio medido em dólares.
+- A avaliação Groq espera 65 segundos entre tentativas. Limites da conta e estimativas de contexto ainda podem causar erros.
+- Um passo da Action verde significa que a ferramenta consultiva não falhou o job; consulte o comentário/resultado para saber se houve diagnóstico.
+- `dry-run` impede diagnóstico e publicação, mas o GitHub pode ser consultado para contexto do PR; a contagem de tokens é local. Use `eval:score` para revisão estritamente offline.
+- Sem correção automática, aprovação de merge ou alegação de precisão em produção. A revisão humana independente das causas segue pendente.
